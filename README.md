@@ -1,6 +1,8 @@
 # MMOFoliage
 A Fabric Minecraft mod that adds more foliage to the game
 
+[![Gradle Publish](https://github.com/LCLPYT/MMOFoliage/actions/workflows/gradle-publish.yml/badge.svg)](https://github.com/LCLPYT/MMOFoliage/actions/workflows/gradle-publish.yml)
+
 ## Download and installation
 
 - locate your release on the [downloads page](https://github.com/LCLPYT/MMOFoliage/releases) and download the jar file (e.g. `mmofoliage-1.0.0.jar`).
