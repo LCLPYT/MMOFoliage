@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "mmofoliage",
+  "version": "${version}",
+
+  "name": "MMOFoliage",
+  "description": "A Fabric Minecraft mod that adds more foliage to the game",
+  "authors": [
+    "LCLP"
+  ],
+  "contact": {
+    "homepage": "https://github.com/LCLPYT/MMOFoliage",
+    "sources": "https://github.com/LCLPYT/MMOFoliage"
+  },
+
+  "license": "MIT",
+  "icon": "assets/mmofoliage/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "work.lclpnet.mmofoliage.MMOFoliage"
+    ],
+    "client": [
+      "work.lclpnet.mmofoliage.client.MMOFoliageClient"
+    ]
+  },
+  "mixins": [
+    "mmofoliage.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.12.12",
+    "fabric": "*",
+    "minecraft": "1.16.x",
+    "mmocontent": ">=1.3.1"
+  },
+  "suggests": {}
+}
