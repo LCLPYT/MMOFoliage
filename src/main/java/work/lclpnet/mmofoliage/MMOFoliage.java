@@ -14,7 +14,7 @@ import java.util.Set;
 
 public class MMOFoliage implements ModInitializer {
 
-    public static final String MOD_ID = "lclpmmo";
+    public static final String MOD_ID = "mmofoliage";
 
     private static Set<IModule> modules = ImmutableSet.of(
             new PlantsModule()
