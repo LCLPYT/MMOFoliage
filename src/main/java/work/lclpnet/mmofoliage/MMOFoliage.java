@@ -7,8 +7,10 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import work.lclpnet.mmofoliage.module.AdditionalWoodModule;
 import work.lclpnet.mmofoliage.module.IModule;
 import work.lclpnet.mmofoliage.module.PlantsModule;
+import work.lclpnet.mmofoliage.module.SoilModule;
 
 import java.util.Set;
 
@@ -17,7 +19,9 @@ public class MMOFoliage implements ModInitializer {
     public static final String MOD_ID = "mmofoliage";
 
     private static Set<IModule> modules = ImmutableSet.of(
-            new PlantsModule()
+            new PlantsModule(),
+            new SoilModule(),
+            new AdditionalWoodModule()
     );
 
     public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.build(

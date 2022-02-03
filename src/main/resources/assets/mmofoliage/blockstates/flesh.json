@@ -1,0 +1,10 @@
+{
+    "variants": {
+		"": [
+            { "model": "mmofoliage:block/flesh" },
+            { "model": "mmofoliage:block/flesh", "y": 90 },
+            { "model": "mmofoliage:block/flesh", "y": 180 },
+            { "model": "mmofoliage:block/flesh", "y": 270 }
+        ]
+    }
+}

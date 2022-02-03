@@ -1,0 +1,10 @@
+{
+    "variants": {
+		"": [
+            { "model": "mmofoliage:block/mud" },
+            { "model": "mmofoliage:block/mud", "y": 90 },
+            { "model": "mmofoliage:block/mud", "y": 180 },
+            { "model": "mmofoliage:block/mud", "y": 270 }
+        ]
+    }
+}

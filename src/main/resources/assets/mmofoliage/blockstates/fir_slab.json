@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "type=bottom": { "model": "mmofoliage:block/fir_slab" },
+        "type=top": { "model": "mmofoliage:block/fir_slab_top" },
+        "type=double": { "model": "mmofoliage:block/fir_planks" }
+    }
+}
