@@ -1,0 +1,6 @@
+{
+    "parent": "block/leaves",
+    "textures": {
+        "all": "mmofoliage:block/pink_cherry_leaves"
+    }
+}

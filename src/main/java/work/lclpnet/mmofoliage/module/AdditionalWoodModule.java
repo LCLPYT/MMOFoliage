@@ -2,7 +2,11 @@ package work.lclpnet.mmofoliage.module;
 
 import net.minecraft.block.*;
 import net.minecraft.block.sapling.SaplingGenerator;
+import net.minecraft.entity.vehicle.BoatEntity;
+import net.minecraft.item.BoatItem;
+import net.minecraft.item.SignItem;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.util.SignType;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.feature.Feature;
@@ -12,10 +16,15 @@ import work.lclpnet.mmocontent.block.ext.MMOBlock;
 import work.lclpnet.mmocontent.block.ext.MMOLeavesBlock;
 import work.lclpnet.mmocontent.block.ext.MMOPillarBlock;
 import work.lclpnet.mmocontent.block.ext.MMOSaplingBlock;
+import work.lclpnet.mmocontent.item.MMOItemRegistrar;
+import work.lclpnet.mmofoliage.block.MAdditionalSigns;
 import work.lclpnet.mmofoliage.block.MSaplingBlock;
+import work.lclpnet.mmofoliage.block.MSignBlock;
+import work.lclpnet.mmofoliage.block.MWallSignBlock;
 import work.lclpnet.mmofoliage.worldgen.TaigaTreeFeature;
 import work.lclpnet.mmofoliage.worldgen.sapling.FirSaplingGenerator;
 
+import javax.annotation.Nullable;
 import java.util.Objects;
 
 import static work.lclpnet.mmocontent.util.MMOUtil.registerStrippedBlock;
@@ -24,7 +33,7 @@ import static work.lclpnet.mmofoliage.MMOFoliage.identifier;
 
 public class AdditionalWoodModule implements IModule {
 
-    public static WoodGroupHolder fir;
+    public static WoodGroupHolder fir, cherry;
 
     public static Feature<TreeFeatureConfig> FIR_TREE_SMALL;
     public static Feature<TreeFeatureConfig> FIR_TREE;
@@ -32,7 +41,7 @@ public class AdditionalWoodModule implements IModule {
 
     @Override
     public void register() {
-        fir = registerWoodGroup("fir", MaterialColor.WHITE_TERRACOTTA, MaterialColor.LIGHT_GRAY_TERRACOTTA, new FirSaplingGenerator());
+        fir = registerWoodGroup("fir", MaterialColor.WHITE_TERRACOTTA, MaterialColor.LIGHT_GRAY_TERRACOTTA, new FirSaplingGenerator(), true);
 
         FIR_TREE_SMALL = Registry.register(Registry.FEATURE, identifier("fir_tree_small"), new TaigaTreeFeature.Builder()
                 .log(fir.log.getDefaultState())
@@ -53,15 +62,20 @@ public class AdditionalWoodModule implements IModule {
                 .maxHeight(40)
                 .trunkWidth(2)
                 .create());
+
+        cherry = registerWoodGroup("cherry", MaterialColor.RED, MaterialColor.RED_TERRACOTTA, null, false);
     }
 
-    private static WoodGroupHolder registerWoodGroup(String name, MaterialColor woodTopColor, MaterialColor woodSideColor, SaplingGenerator saplingGenerator) {
-        MMOLeavesBlock leaves = new MMOLeavesBlock(AbstractBlock.Settings.of(Material.LEAVES)
-                .strength(0.2F)
-                .ticksRandomly()
-                .sounds(BlockSoundGroup.GRASS)
-                .nonOpaque());
-        new MMOBlockRegistrar(leaves).register(identifier("%s_leaves", name), ITEM_GROUP);
+    private static WoodGroupHolder registerWoodGroup(String name, MaterialColor woodTopColor, MaterialColor woodSideColor, @Nullable SaplingGenerator saplingGenerator, boolean registerLeaves) {
+        MMOLeavesBlock leaves = null;
+        if (registerLeaves) {
+            leaves = new MMOLeavesBlock(AbstractBlock.Settings.of(Material.LEAVES)
+                    .strength(0.2F)
+                    .ticksRandomly()
+                    .sounds(BlockSoundGroup.GRASS)
+                    .nonOpaque());
+            new MMOBlockRegistrar(leaves).register(identifier("%s_leaves", name), ITEM_GROUP);
+        }
 
         MMOPillarBlock log = createLogBlock(woodTopColor, woodSideColor);
         new MMOBlockRegistrar(log).register(identifier("%s_log", name), ITEM_GROUP);
@@ -90,12 +104,40 @@ public class AdditionalWoodModule implements IModule {
                 .withPressurePlate(PressurePlateBlock.ActivationRule.EVERYTHING).withButton(true)
                 .register(identifier(name), ITEM_GROUP, basePath -> basePath.concat("_planks"));
 
-        MSaplingBlock sapling = new MSaplingBlock(saplingGenerator, AbstractBlock.Settings.of(Material.PLANT)
+        MSaplingBlock sapling = null;
+        if (saplingGenerator != null) {
+            sapling = new MSaplingBlock(saplingGenerator, AbstractBlock.Settings.of(Material.PLANT)
+                    .noCollision()
+                    .ticksRandomly()
+                    .breakInstantly()
+                    .sounds(BlockSoundGroup.GRASS));
+            new MMOBlockRegistrar(sapling).register(identifier("%s_sapling", name), ITEM_GROUP);
+        }
+
+        SignType signType = MAdditionalSigns.registerSignType(name);
+
+        MSignBlock sign = new MSignBlock(AbstractBlock.Settings.of(Material.WOOD)
                 .noCollision()
-                .ticksRandomly()
-                .breakInstantly()
-                .sounds(BlockSoundGroup.GRASS));
-        new MMOBlockRegistrar(sapling).register(identifier("%s_sapling", name), ITEM_GROUP);
+                .strength(1.0F)
+                .sounds(BlockSoundGroup.WOOD), signType);
+        new MMOBlockRegistrar(sign)
+                .register(identifier("%s_sign", name));
+
+        MWallSignBlock wallSign = new MWallSignBlock(AbstractBlock.Settings.of(Material.WOOD)
+                .noCollision()
+                .strength(1.0F)
+                .sounds(BlockSoundGroup.WOOD)
+                .dropsLike(sign), signType);
+        new MMOBlockRegistrar(wallSign)
+                .register(identifier("%s_wall_sign", name));
+
+        MAdditionalSigns.registerAdditionalSign(sign, wallSign);
+
+        new MMOItemRegistrar(settings -> new SignItem(settings.maxCount(16), sign, wallSign))
+                .register(identifier("%s_sign", name), ITEM_GROUP);
+
+        new MMOItemRegistrar(settings -> new BoatItem(BoatEntity.Type.OAK, settings.maxCount(1)))
+                .register(identifier("%s_boat", name), ITEM_GROUP);
 
         return new WoodGroupHolder(sapling, leaves, log, wood, strippedLog, strippedWood, planks, result);
     }

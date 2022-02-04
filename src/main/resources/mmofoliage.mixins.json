@@ -4,14 +4,18 @@
   "package": "work.lclpnet.mmofoliage.asm.mixin",
   "compatibilityLevel": "JAVA_8",
   "client": [
+    "client.MixinTexturedRenderLayers"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "mixins": [
     "common.AbstractBlockAccessor",
+    "common.BlockEntityTypeAccessor",
+    "common.MixinBlockEntityType",
     "common.MixinTreeFeature",
     "common.PlantBlockAccessor",
-    "common.SaplingBlockAccessor"
+    "common.SaplingBlockAccessor",
+    "common.SignTypeAccessor"
   ]
 }

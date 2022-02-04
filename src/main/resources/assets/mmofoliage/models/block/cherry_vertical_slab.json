@@ -1,0 +1,8 @@
+{
+  "parent": "mmofoliage:block/vertical_slab",
+  "textures": {
+    "bottom": "mmofoliage:block/cherry_planks",
+    "top": "mmofoliage:block/cherry_planks",
+    "side": "mmofoliage:block/cherry_planks"
+  }
+}
