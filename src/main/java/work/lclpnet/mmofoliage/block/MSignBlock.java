@@ -1,6 +1,5 @@
 package work.lclpnet.mmofoliage.block;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.SignBlock;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;

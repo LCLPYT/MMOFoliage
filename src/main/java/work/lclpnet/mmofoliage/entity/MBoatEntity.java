@@ -1,7 +1,6 @@
 package work.lclpnet.mmofoliage.entity;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -17,7 +16,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import work.lclpnet.mmocontent.networking.MMONetworking;
-import work.lclpnet.mmocontent.networking.packet.MMOEntitySpawnS2CPacket;
 import work.lclpnet.mmofoliage.asm.mixin.common.BoatEntityAccessor;
 import work.lclpnet.mmofoliage.module.AdditionalWoodModule;
 

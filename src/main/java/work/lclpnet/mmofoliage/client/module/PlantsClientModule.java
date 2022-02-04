@@ -7,7 +7,6 @@ import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.BlockItem;
-import work.lclpnet.mmocontent.client.render.block.MMORenderLayers;
 import work.lclpnet.mmofoliage.module.PlantsModule;
 
 import static work.lclpnet.mmocontent.client.render.block.MMORenderLayers.setBlockRenderType;

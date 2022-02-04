@@ -9,7 +9,6 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.explosion.Explosion;
 import work.lclpnet.mmocontent.block.ext.MMOBlock;
 
 public class MudBlock extends MMOBlock {

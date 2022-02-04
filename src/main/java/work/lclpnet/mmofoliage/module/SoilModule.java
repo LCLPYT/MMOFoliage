@@ -1,6 +1,5 @@
 package work.lclpnet.mmofoliage.module;
 
-import net.minecraft.block.MushroomBlock;
 import work.lclpnet.mmocontent.block.MMOBlockRegistrar;
 import work.lclpnet.mmofoliage.MMOFoliage;
 import work.lclpnet.mmofoliage.block.FleshBlock;
