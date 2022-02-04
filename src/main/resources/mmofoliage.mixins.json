@@ -4,7 +4,8 @@
   "package": "work.lclpnet.mmofoliage.asm.mixin",
   "compatibilityLevel": "JAVA_8",
   "client": [
-    "client.MixinTexturedRenderLayers"
+    "client.MixinTexturedRenderLayers",
+    "client.MixinBoatEntityRenderer"
   ],
   "injectors": {
     "defaultRequire": 1
@@ -12,6 +13,7 @@
   "mixins": [
     "common.AbstractBlockAccessor",
     "common.BlockEntityTypeAccessor",
+    "common.BoatEntityAccessor",
     "common.MixinBlockEntityType",
     "common.MixinTreeFeature",
     "common.PlantBlockAccessor",

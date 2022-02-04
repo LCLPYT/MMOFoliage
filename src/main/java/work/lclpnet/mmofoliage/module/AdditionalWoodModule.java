@@ -1,9 +1,11 @@
 package work.lclpnet.mmofoliage.module;
 
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.block.*;
 import net.minecraft.block.sapling.SaplingGenerator;
-import net.minecraft.entity.vehicle.BoatEntity;
-import net.minecraft.item.BoatItem;
+import net.minecraft.entity.EntityDimensions;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.SignItem;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.SignType;
@@ -21,6 +23,9 @@ import work.lclpnet.mmofoliage.block.MAdditionalSigns;
 import work.lclpnet.mmofoliage.block.MSaplingBlock;
 import work.lclpnet.mmofoliage.block.MSignBlock;
 import work.lclpnet.mmofoliage.block.MWallSignBlock;
+import work.lclpnet.mmofoliage.entity.MBoatEntity;
+import work.lclpnet.mmofoliage.entity.MBoatType;
+import work.lclpnet.mmofoliage.item.MBoatItem;
 import work.lclpnet.mmofoliage.worldgen.TaigaTreeFeature;
 import work.lclpnet.mmofoliage.worldgen.sapling.FirSaplingGenerator;
 
@@ -33,6 +38,8 @@ import static work.lclpnet.mmofoliage.MMOFoliage.identifier;
 
 public class AdditionalWoodModule implements IModule {
 
+    public static EntityType<MBoatEntity> boatEntityType;
+
     public static WoodGroupHolder fir, cherry;
 
     public static Feature<TreeFeatureConfig> FIR_TREE_SMALL;
@@ -41,6 +48,14 @@ public class AdditionalWoodModule implements IModule {
 
     @Override
     public void register() {
+        boatEntityType = Registry.register(Registry.ENTITY_TYPE,
+                identifier("boat"),
+                FabricEntityTypeBuilder.create(SpawnGroup.MISC, (EntityType.EntityFactory<MBoatEntity>) MBoatEntity::new)
+                        .dimensions(EntityDimensions.changing(1.375F, 0.5625F))
+                        .trackRangeChunks(10)
+                        .build()
+        );
+
         fir = registerWoodGroup("fir", MaterialColor.WHITE_TERRACOTTA, MaterialColor.LIGHT_GRAY_TERRACOTTA, new FirSaplingGenerator(), true);
 
         FIR_TREE_SMALL = Registry.register(Registry.FEATURE, identifier("fir_tree_small"), new TaigaTreeFeature.Builder()
@@ -136,10 +151,12 @@ public class AdditionalWoodModule implements IModule {
         new MMOItemRegistrar(settings -> new SignItem(settings.maxCount(16), sign, wallSign))
                 .register(identifier("%s_sign", name), ITEM_GROUP);
 
-        new MMOItemRegistrar(settings -> new BoatItem(BoatEntity.Type.OAK, settings.maxCount(1)))
+        MBoatType boatType = MBoatType.register(identifier(name), planks, () -> AdditionalWoodModule.fir.boatItem);
+
+        MBoatItem boatItem = (MBoatItem) new MMOItemRegistrar(settings -> new MBoatItem(boatType, settings.maxCount(1)))
                 .register(identifier("%s_boat", name), ITEM_GROUP);
 
-        return new WoodGroupHolder(sapling, leaves, log, wood, strippedLog, strippedWood, planks, result);
+        return new WoodGroupHolder(sapling, leaves, log, wood, strippedLog, strippedWood, planks, result, boatType, boatItem);
     }
 
     private static MMOPillarBlock createLogBlock(MaterialColor topMaterialColor, MaterialColor sideMaterialColor) {
@@ -162,10 +179,12 @@ public class AdditionalWoodModule implements IModule {
         public final TrapdoorBlock trapdoor;
         public final PressurePlateBlock pressurePlate;
         public final AbstractButtonBlock button;
+        public final MBoatType boatType;
+        public final MBoatItem boatItem;
 
         public WoodGroupHolder(MMOSaplingBlock sapling, MMOLeavesBlock leaves, MMOPillarBlock log, MMOPillarBlock wood,
                                MMOPillarBlock strippedLog, MMOPillarBlock strippedWood, MMOBlock planks,
-                               MMOBlockRegistrar.Result result) {
+                               MMOBlockRegistrar.Result result, MBoatType boatType, MBoatItem boatItem) {
             this.leaves = leaves;
             this.sapling = sapling;
             this.log = log;
@@ -181,6 +200,8 @@ public class AdditionalWoodModule implements IModule {
             this.trapdoor = Objects.requireNonNull(result.trapdoor).block;
             this.pressurePlate = Objects.requireNonNull(result.pressurePlate).block;
             this.button = Objects.requireNonNull(result.button).block;
+            this.boatType = boatType;
+            this.boatItem = boatItem;
         }
     }
 }
