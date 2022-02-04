@@ -9,5 +9,9 @@
     "defaultRequire": 1
   },
   "mixins": [
+    "common.AbstractBlockAccessor",
+    "common.MixinTreeFeature",
+    "common.PlantBlockAccessor",
+    "common.SaplingBlockAccessor"
   ]
 }

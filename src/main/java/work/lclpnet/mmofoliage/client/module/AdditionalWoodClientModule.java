@@ -10,5 +10,6 @@ public class AdditionalWoodClientModule implements IClientModule {
     public void register() {
         MMORenderLayers.setBlockRenderType(AdditionalWoodModule.fir.door, RenderLayer.getCutout());
         MMORenderLayers.setBlockRenderType(AdditionalWoodModule.fir.trapdoor, RenderLayer.getCutout());
+        MMORenderLayers.setBlockRenderType(AdditionalWoodModule.fir.sapling, RenderLayer.getCutout());
     }
 }
