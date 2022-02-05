@@ -1,6 +1,10 @@
 {
   "replace": false,
   "values": [
-    "mmofoliage:fir_door"
+    "mmofoliage:fir_door",
+    "mmofoliage:cherry_door",
+    "mmofoliage:jacaranda_door",
+    "mmofoliage:dead_door",
+    "mmofoliage:hellbark_door"
   ]
 }

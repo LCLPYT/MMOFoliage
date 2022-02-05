@@ -1,6 +1,10 @@
 {
   "replace": false,
   "values": [
-    "mmofoliage:fir_fence"
+    "mmofoliage:fir_fence",
+    "mmofoliage:cherry_fence",
+    "mmofoliage:jacaranda_fence",
+    "mmofoliage:dead_fence",
+    "mmofoliage:hellbark_fence"
   ]
 }

@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "mmofoliage:fir_boat",
+	"mmofoliage:cherry_boat",
+	"mmofoliage:jacaranda_boat",
+	"mmofoliage:dead_boat",
+	"mmofoliage:hellbark_boat"
+  ]
+}

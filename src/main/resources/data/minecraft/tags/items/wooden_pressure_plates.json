@@ -1,6 +1,10 @@
 {
   "replace": false,
   "values": [
-    "mmofoliage:fir_pressure_plate"
+    "mmofoliage:fir_pressure_plate",
+    "mmofoliage:cherry_pressure_plate",
+    "mmofoliage:jacaranda_pressure_plate",
+    "mmofoliage:dead_pressure_plate",
+    "mmofoliage:hellbark_pressure_plate"
   ]
 }

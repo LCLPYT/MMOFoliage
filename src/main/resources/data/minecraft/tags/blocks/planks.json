@@ -1,6 +1,10 @@
 {
   "replace": false,
   "values": [
-    "mmofoliage:fir_planks"
+    "mmofoliage:fir_planks",
+    "mmofoliage:cherry_planks",
+    "mmofoliage:jacaranda_planks",
+    "mmofoliage:dead_planks",
+    "mmofoliage:hellbark_planks"
   ]
 }

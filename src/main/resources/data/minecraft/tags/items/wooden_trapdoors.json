@@ -1,6 +1,10 @@
 {
   "replace": false,
   "values": [
-    "mmofoliage:fir_trapdoor"
+    "mmofoliage:fir_trapdoor",
+    "mmofoliage:cherry_trapdoor",
+    "mmofoliage:jacaranda_trapdoor",
+    "mmofoliage:dead_trapdoor",
+    "mmofoliage:hellbark_trapdoor"
   ]
 }

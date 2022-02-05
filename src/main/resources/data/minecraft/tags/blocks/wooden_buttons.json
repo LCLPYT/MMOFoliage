@@ -1,6 +1,10 @@
 {
   "replace": false,
   "values": [
-    "mmofoliage:fir_button"
+    "mmofoliage:fir_button",
+    "mmofoliage:cherry_button",
+    "mmofoliage:jacaranda_button",
+    "mmofoliage:dead_button",
+    "mmofoliage:hellbark_button"
   ]
 }
