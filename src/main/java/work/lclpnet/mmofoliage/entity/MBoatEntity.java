@@ -114,7 +114,7 @@ public class MBoatEntity extends BoatEntity {
     @Override
     public Item asItem() {
         final MBoatType type = getMBoatType();
-        return type != null ? type.boatItem.get() : super.asItem();
+        return type != null ? type.boatItem : super.asItem();
     }
 
     @Override

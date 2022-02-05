@@ -1,7 +1,8 @@
 package work.lclpnet.mmofoliage.entity;
 
 import net.minecraft.block.Block;
-import net.minecraft.item.BoatItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Identifier;
 
@@ -9,18 +10,16 @@ import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Supplier;
 
 public class MBoatType {
 
     public final Identifier identifier;
     public final Block baseBlock;
-    public final Supplier<BoatItem> boatItem;
+    public Item boatItem = Items.OAK_BOAT;
 
-    protected MBoatType(Identifier identifier, Block baseBlock, Supplier<BoatItem> boatItem) {
+    protected MBoatType(Identifier identifier, Block baseBlock) {
         this.identifier = Objects.requireNonNull(identifier);
         this.baseBlock = Objects.requireNonNull(baseBlock);
-        this.boatItem = Objects.requireNonNull(boatItem);
     }
 
     @Override
@@ -42,8 +41,8 @@ public class MBoatType {
 
     private static final Map<Identifier, MBoatType> types = new HashMap<>();
 
-    public static MBoatType register(Identifier identifier, Block baseBlock, Supplier<BoatItem> item) {
-        MBoatType type = new MBoatType(identifier, baseBlock, item);
+    public static MBoatType register(Identifier identifier, Block baseBlock) {
+        MBoatType type = new MBoatType(identifier, baseBlock);
         types.put(identifier, type);
         return type;
     }

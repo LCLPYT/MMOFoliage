@@ -235,10 +235,12 @@ public class AdditionalWoodModule implements IModule {
         new MMOItemRegistrar(settings -> new SignItem(settings.maxCount(16), sign, wallSign))
                 .register(identifier("%s_sign", name), ITEM_GROUP);
 
-        MBoatType boatType = MBoatType.register(identifier(name), planks, () -> AdditionalWoodModule.fir.boatItem);
+        MBoatType boatType = MBoatType.register(identifier(name), planks);
 
-        MBoatItem boatItem = (MBoatItem) new MMOItemRegistrar(settings -> new MBoatItem(boatType, settings.maxCount(1)))
+        final MBoatItem boatItem = (MBoatItem) new MMOItemRegistrar(settings -> new MBoatItem(boatType, settings.maxCount(1)))
                 .register(identifier("%s_boat", name), ITEM_GROUP);
+
+        boatType.boatItem = boatItem;
 
         return new WoodGroupHolder(sapling, pottedSapling, leaves, log, wood, strippedLog, strippedWood, planks, result, boatType, boatItem);
     }
