@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "axis=y":    { "model": "mmofoliage:block/dead_log" },
+        "axis=z":     { "model": "mmofoliage:block/dead_log", "x": 90 },
+        "axis=x":     { "model": "mmofoliage:block/dead_log", "x": 90, "y": 90 }
+    }
+}

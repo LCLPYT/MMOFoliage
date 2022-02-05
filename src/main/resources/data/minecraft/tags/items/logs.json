@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "#mmofoliage:fir_logs"
+    "#mmofoliage:fir_logs",
+    "#mmofoliage:cherry_logs",
+    "#mmofoliage:dead_logs"
   ]
 }

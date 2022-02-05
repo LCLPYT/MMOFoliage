@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=east": { "model": "mmofoliage:block/dead_branch", "y": 90 },
+        "facing=south": { "model": "mmofoliage:block/dead_branch", "y": 180 },
+        "facing=west": { "model": "mmofoliage:block/dead_branch", "y": 270 },
+        "facing=north": { "model": "mmofoliage:block/dead_branch", "y": 0 }
+    }
+}

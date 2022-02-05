@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "mmofoliage:dead_log",
+    "mmofoliage:dead_wood",
+    "mmofoliage:stripped_dead_log",
+    "mmofoliage:stripped_dead_wood"
+  ]
+}

@@ -29,6 +29,7 @@ import work.lclpnet.mmofoliage.item.MBoatItem;
 import work.lclpnet.mmofoliage.worldgen.feature.BasicTreeFeature;
 import work.lclpnet.mmofoliage.worldgen.feature.BigTreeFeature;
 import work.lclpnet.mmofoliage.worldgen.feature.TaigaTreeFeature;
+import work.lclpnet.mmofoliage.worldgen.sapling.DeadSaplingGenerator;
 import work.lclpnet.mmofoliage.worldgen.sapling.FirSaplingGenerator;
 import work.lclpnet.mmofoliage.worldgen.sapling.PinkCherrySaplingGenerator;
 import work.lclpnet.mmofoliage.worldgen.sapling.WhiteCherrySaplingGenerator;
@@ -45,16 +46,18 @@ public class AdditionalWoodModule implements IModule {
 
     public static EntityType<MBoatEntity> boatEntityType;
 
-    public static WoodGroupHolder fir, cherry;
+    public static WoodGroupHolder fir, cherry, dead;
     public static MSaplingBlock whiteCherrySapling, pinkCherrySapling;
 
-    public static Feature<TreeFeatureConfig> FIR_TREE_SMALL;
-    public static Feature<TreeFeatureConfig> FIR_TREE;
-    public static Feature<TreeFeatureConfig> FIR_TREE_LARGE;
-    public static Feature<TreeFeatureConfig> WHITE_CHERRY_TREE;
-    public static Feature<TreeFeatureConfig> BIG_WHITE_CHERRY_TREE;
-    public static Feature<TreeFeatureConfig> PINK_CHERRY_TREE;
-    public static Feature<TreeFeatureConfig> BIG_PINK_CHERRY_TREE;
+    public static Feature<TreeFeatureConfig> FIR_TREE_SMALL,
+            FIR_TREE,
+            FIR_TREE_LARGE,
+            WHITE_CHERRY_TREE,
+            BIG_WHITE_CHERRY_TREE,
+            PINK_CHERRY_TREE,
+            BIG_PINK_CHERRY_TREE,
+            SMALL_DEAD_TREE,
+            DYING_TREE;
 
     @Override
     public void register() {
@@ -120,6 +123,21 @@ public class AdditionalWoodModule implements IModule {
         BIG_PINK_CHERRY_TREE = register("big_pink_cherry_tree", new BigTreeFeature.Builder()
                 .log(cherry.log.getDefaultState())
                 .leaves(pinkCherryLeaves.getDefaultState())
+                .create());
+
+        // dead
+        dead = registerWoodGroup("dead", MaterialColor.STONE, MaterialColor.STONE, new DeadSaplingGenerator(), true);
+
+        SMALL_DEAD_TREE = register("small_dead_tree", new BasicTreeFeature.Builder()
+                .log(dead.log.getDefaultState())
+                .leaves(dead.leaves.getDefaultState())
+                .create());
+
+        DYING_TREE = register("dying_tree", new BigTreeFeature.Builder()
+                .log(dead.log.getDefaultState())
+                .leaves(dead.leaves.getDefaultState())
+                .maxHeight(10)
+                .foliageHeight(2)
                 .create());
     }
 

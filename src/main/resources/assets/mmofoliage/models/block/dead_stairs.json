@@ -1,0 +1,8 @@
+{
+    "parent": "block/stairs",
+    "textures": {
+        "bottom": "mmofoliage:block/dead_planks",
+        "top": "mmofoliage:block/dead_planks",
+        "side": "mmofoliage:block/dead_planks"
+    }
+}

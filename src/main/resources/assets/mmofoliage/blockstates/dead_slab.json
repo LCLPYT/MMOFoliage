@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "type=bottom": { "model": "mmofoliage:block/dead_slab" },
+        "type=top": { "model": "mmofoliage:block/dead_slab_top" },
+        "type=double": { "model": "mmofoliage:block/dead_planks" }
+    }
+}
