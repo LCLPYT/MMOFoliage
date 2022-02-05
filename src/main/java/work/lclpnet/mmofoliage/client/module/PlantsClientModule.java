@@ -15,14 +15,18 @@ public class PlantsClientModule implements IClientModule {
 
     @Override
     public void register() {
-        setBlockRenderType(PlantsModule.bush, RenderLayer.getCutout());
-        setBlockRenderType(PlantsModule.sprout, RenderLayer.getCutout());
-        setBlockRenderType(PlantsModule.dead_grass, RenderLayer.getCutout());
-        setBlockRenderType(PlantsModule.dune_grass, RenderLayer.getCutout());
+        final RenderLayer cutout = RenderLayer.getCutout();
+
+        setBlockRenderType(PlantsModule.bush, cutout);
+        setBlockRenderType(PlantsModule.sprout, cutout);
+        setBlockRenderType(PlantsModule.dead_grass, cutout);
+        setBlockRenderType(PlantsModule.dune_grass, cutout);
+
+        setBlockRenderType(PlantsModule.pottedSprout, cutout);
 
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex)
                         -> world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor(),
-                PlantsModule.bush, PlantsModule.sprout);
+                PlantsModule.bush, PlantsModule.sprout, PlantsModule.pottedSprout);
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
             BlockState BlockState = ((BlockItem) stack.getItem()).getBlock().getDefaultState();

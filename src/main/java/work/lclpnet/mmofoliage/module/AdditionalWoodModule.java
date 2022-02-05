@@ -14,11 +14,13 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import work.lclpnet.mmocontent.block.MMOBlockRegistrar;
+import work.lclpnet.mmocontent.block.MMOPottedPlantUtil;
 import work.lclpnet.mmocontent.block.ext.MMOBlock;
 import work.lclpnet.mmocontent.block.ext.MMOLeavesBlock;
 import work.lclpnet.mmocontent.block.ext.MMOPillarBlock;
 import work.lclpnet.mmocontent.block.ext.MMOSaplingBlock;
 import work.lclpnet.mmocontent.item.MMOItemRegistrar;
+import work.lclpnet.mmofoliage.MMOFoliage;
 import work.lclpnet.mmofoliage.block.MAdditionalSigns;
 import work.lclpnet.mmofoliage.block.MSaplingBlock;
 import work.lclpnet.mmofoliage.block.MSignBlock;
@@ -47,6 +49,7 @@ public class AdditionalWoodModule implements IModule {
 
     public static WoodGroupHolder fir, cherry, dead, hellbark, jacaranda;
     public static MSaplingBlock whiteCherrySapling, pinkCherrySapling;
+    public static FlowerPotBlock pottedWhiteCherrySapling, pottedPinkCherrySapling;
 
     public static Feature<TreeFeatureConfig> FIR_TREE_SMALL,
             FIR_TREE,
@@ -98,10 +101,14 @@ public class AdditionalWoodModule implements IModule {
         final String whiteCherry = "white_cherry", pinkCherry = "pink_cherry";
 
         MMOLeavesBlock whiteCherryLeaves = registerLeaves(whiteCherry, MaterialColor.WHITE);
-        whiteCherrySapling = registerSapling(whiteCherry, new WhiteCherrySaplingGenerator());
+        RegisteredSapling whiteCherryPlant = registerSapling(whiteCherry, new WhiteCherrySaplingGenerator());
+        AdditionalWoodModule.whiteCherrySapling = whiteCherryPlant.block;
+        AdditionalWoodModule.pottedWhiteCherrySapling = whiteCherryPlant.potted;
 
         MMOLeavesBlock pinkCherryLeaves = registerLeaves(pinkCherry, MaterialColor.PINK);
-        pinkCherrySapling = registerSapling(pinkCherry, new PinkCherrySaplingGenerator());
+        RegisteredSapling pinkCherryPlant = registerSapling(pinkCherry, new PinkCherrySaplingGenerator());
+        AdditionalWoodModule.pinkCherrySapling = pinkCherryPlant.block;
+        AdditionalWoodModule.pottedPinkCherrySapling = pinkCherryPlant.potted;
 
         cherry = registerWoodGroup("cherry", MaterialColor.RED, MaterialColor.RED_TERRACOTTA, null, false);
 
@@ -172,8 +179,11 @@ public class AdditionalWoodModule implements IModule {
         if (registerLeaves) leaves = registerLeaves(name, Material.LEAVES.getColor());
 
         MSaplingBlock sapling = null;
+        FlowerPotBlock pottedSapling = null;
         if (saplingGenerator != null) {
-            sapling = registerSapling(name, saplingGenerator);
+            RegisteredSapling plant = registerSapling(name, saplingGenerator);
+            sapling = plant.block;
+            pottedSapling = plant.potted;
         }
 
         MMOPillarBlock log = createLogBlock(woodTopColor, woodSideColor);
@@ -230,19 +240,22 @@ public class AdditionalWoodModule implements IModule {
         MBoatItem boatItem = (MBoatItem) new MMOItemRegistrar(settings -> new MBoatItem(boatType, settings.maxCount(1)))
                 .register(identifier("%s_boat", name), ITEM_GROUP);
 
-        return new WoodGroupHolder(sapling, leaves, log, wood, strippedLog, strippedWood, planks, result, boatType, boatItem);
+        return new WoodGroupHolder(sapling, pottedSapling, leaves, log, wood, strippedLog, strippedWood, planks, result, boatType, boatItem);
     }
 
     @Nonnull
-    private static MSaplingBlock registerSapling(String name, @Nonnull SaplingGenerator saplingGenerator) {
+    private static RegisteredSapling registerSapling(String name, @Nonnull SaplingGenerator saplingGenerator) {
         MSaplingBlock sapling;
         sapling = new MSaplingBlock(saplingGenerator, AbstractBlock.Settings.of(Material.PLANT)
                 .noCollision()
                 .ticksRandomly()
                 .breakInstantly()
                 .sounds(BlockSoundGroup.GRASS));
+
         new MMOBlockRegistrar(sapling).register(identifier("%s_sapling", name), ITEM_GROUP);
-        return sapling;
+
+        FlowerPotBlock potted = MMOPottedPlantUtil.addPottedPlant(sapling, String.format("%s_sapling", name), MMOFoliage::identifier);
+        return new RegisteredSapling(sapling, potted);
     }
 
     @Nonnull
@@ -264,8 +277,19 @@ public class AdditionalWoodModule implements IModule {
                 .sounds(BlockSoundGroup.WOOD));
     }
 
+    public static class RegisteredSapling {
+        public final MSaplingBlock block;
+        public final FlowerPotBlock potted;
+
+        public RegisteredSapling(MSaplingBlock block, FlowerPotBlock potted) {
+            this.block = block;
+            this.potted = potted;
+        }
+    }
+
     public static class WoodGroupHolder {
         public final MMOSaplingBlock sapling;
+        public final FlowerPotBlock pottedSapling;
         public final MMOLeavesBlock leaves;
         public final MMOPillarBlock log, wood, strippedLog, strippedWood;
         public final MMOBlock planks;
@@ -280,9 +304,10 @@ public class AdditionalWoodModule implements IModule {
         public final MBoatType boatType;
         public final MBoatItem boatItem;
 
-        public WoodGroupHolder(MMOSaplingBlock sapling, MMOLeavesBlock leaves, MMOPillarBlock log, MMOPillarBlock wood,
+        public WoodGroupHolder(MMOSaplingBlock sapling, FlowerPotBlock pottedSapling, MMOLeavesBlock leaves, MMOPillarBlock log, MMOPillarBlock wood,
                                MMOPillarBlock strippedLog, MMOPillarBlock strippedWood, MMOBlock planks,
                                MMOBlockRegistrar.Result result, MBoatType boatType, MBoatItem boatItem) {
+            this.pottedSapling = pottedSapling;
             this.leaves = leaves;
             this.sapling = sapling;
             this.log = log;
