@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "mmofoliage:jacaranda_log",
+    "mmofoliage:jacaranda_wood",
+    "mmofoliage:stripped_jacaranda_log",
+    "mmofoliage:stripped_jacaranda_wood"
+  ]
+}

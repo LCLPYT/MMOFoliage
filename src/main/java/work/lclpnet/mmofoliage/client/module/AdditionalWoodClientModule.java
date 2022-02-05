@@ -44,5 +44,10 @@ public class AdditionalWoodClientModule implements IClientModule {
         setBlockRenderType(hellbark.door, cutout);
         setBlockRenderType(hellbark.trapdoor, cutout);
         setBlockRenderType(hellbark.sapling, cutout);
+
+        // jacaranda
+        setBlockRenderType(jacaranda.door, cutout);
+        setBlockRenderType(jacaranda.trapdoor, cutout);
+        setBlockRenderType(jacaranda.sapling, cutout);
     }
 }

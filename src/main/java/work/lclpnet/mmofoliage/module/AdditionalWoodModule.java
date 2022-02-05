@@ -45,7 +45,7 @@ public class AdditionalWoodModule implements IModule {
 
     public static EntityType<MBoatEntity> boatEntityType;
 
-    public static WoodGroupHolder fir, cherry, dead, hellbark;
+    public static WoodGroupHolder fir, cherry, dead, hellbark, jacaranda;
     public static MSaplingBlock whiteCherrySapling, pinkCherrySapling;
 
     public static Feature<TreeFeatureConfig> FIR_TREE_SMALL,
@@ -57,7 +57,9 @@ public class AdditionalWoodModule implements IModule {
             BIG_PINK_CHERRY_TREE,
             SMALL_DEAD_TREE,
             DYING_TREE,
-            HELLBARK_TREE;
+            HELLBARK_TREE,
+            JACARANDA_TREE,
+            BIG_JACARANDA_TREE;
 
     @Override
     public void register() {
@@ -70,7 +72,6 @@ public class AdditionalWoodModule implements IModule {
         );
 
         // fir
-
         fir = registerWoodGroup("fir", MaterialColor.WHITE_TERRACOTTA, MaterialColor.LIGHT_GRAY_TERRACOTTA, new FirSaplingGenerator(), true);
 
         FIR_TREE_SMALL = register("fir_tree_small", new TaigaTreeFeature.Builder()
@@ -94,7 +95,6 @@ public class AdditionalWoodModule implements IModule {
                 .create());
 
         // cherry
-
         final String whiteCherry = "white_cherry", pinkCherry = "pink_cherry";
 
         MMOLeavesBlock whiteCherryLeaves = registerLeaves(whiteCherry, MaterialColor.WHITE);
@@ -147,6 +147,19 @@ public class AdditionalWoodModule implements IModule {
                 .placeOn((world, pos) -> Blocks.NETHERRACK.equals(world.getBlockState(pos).getBlock()) || FTF.canSustainSapling(Blocks.OAK_SAPLING, world, pos))
                 .log(hellbark.log.getDefaultState())
                 .leaves(hellbark.leaves.getDefaultState())
+                .create());
+
+        // jacaranda
+        jacaranda = registerWoodGroup("jacaranda", MaterialColor.WHITE_TERRACOTTA, MaterialColor.LIGHT_GRAY_TERRACOTTA, new JacarandaSaplingGenerator(), true);
+
+        JACARANDA_TREE = register("jacaranda_tree", new BasicTreeFeature.Builder()
+                .log(jacaranda.log.getDefaultState())
+                .leaves(jacaranda.leaves.getDefaultState())
+                .create());
+
+        BIG_JACARANDA_TREE = register("big_jacaranda_tree", new BigTreeFeature.Builder()
+                .log(jacaranda.log.getDefaultState())
+                .leaves(jacaranda.leaves.getDefaultState())
                 .create());
     }
 

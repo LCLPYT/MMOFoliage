@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "axis=y": { "model": "mmofoliage:block/jacaranda_wood" },
+        "axis=z": { "model": "mmofoliage:block/jacaranda_wood", "x": 90 },
+        "axis=x": { "model": "mmofoliage:block/jacaranda_wood", "x": 90, "y": 90 }
+    }
+}

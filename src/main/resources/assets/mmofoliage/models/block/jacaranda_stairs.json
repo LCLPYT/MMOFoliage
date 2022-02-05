@@ -1,0 +1,8 @@
+{
+    "parent": "block/stairs",
+    "textures": {
+        "bottom": "mmofoliage:block/jacaranda_planks",
+        "top": "mmofoliage:block/jacaranda_planks",
+        "side": "mmofoliage:block/jacaranda_planks"
+    }
+}

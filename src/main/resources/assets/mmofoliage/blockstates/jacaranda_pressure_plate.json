@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "powered=false": { "model": "mmofoliage:block/jacaranda_pressure_plate" },
+        "powered=true": { "model": "mmofoliage:block/jacaranda_pressure_plate_down" }
+    }
+}
