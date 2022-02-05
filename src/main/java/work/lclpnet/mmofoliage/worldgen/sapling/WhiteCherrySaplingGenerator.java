@@ -6,15 +6,11 @@ import work.lclpnet.mmofoliage.module.AdditionalWoodModule;
 
 import java.util.Random;
 
-public class FirSaplingGenerator extends AbstractBigTreeSaplingGenerator {
+public class WhiteCherrySaplingGenerator extends AbstractTreeSaplingGenerator {
 
     @Override
     protected Feature<? extends TreeFeatureConfig> getFeature(Random random) {
-        return AdditionalWoodModule.FIR_TREE;
-    }
-
-    @Override
-    protected Feature<? extends TreeFeatureConfig> getBigFeature(Random random) {
-        return AdditionalWoodModule.FIR_TREE_LARGE;
+        return AdditionalWoodModule.BIG_WHITE_CHERRY_TREE;
+//        return random.nextInt(10) == 0 ? AdditionalWoodModule.BIG_WHITE_CHERRY_TREE : AdditionalWoodModule.WHITE_CHERRY_TREE;
     }
 }

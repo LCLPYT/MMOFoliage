@@ -26,9 +26,14 @@ import work.lclpnet.mmofoliage.block.MWallSignBlock;
 import work.lclpnet.mmofoliage.entity.MBoatEntity;
 import work.lclpnet.mmofoliage.entity.MBoatType;
 import work.lclpnet.mmofoliage.item.MBoatItem;
-import work.lclpnet.mmofoliage.worldgen.TaigaTreeFeature;
+import work.lclpnet.mmofoliage.worldgen.feature.BasicTreeFeature;
+import work.lclpnet.mmofoliage.worldgen.feature.BigTreeFeature;
+import work.lclpnet.mmofoliage.worldgen.feature.TaigaTreeFeature;
 import work.lclpnet.mmofoliage.worldgen.sapling.FirSaplingGenerator;
+import work.lclpnet.mmofoliage.worldgen.sapling.PinkCherrySaplingGenerator;
+import work.lclpnet.mmofoliage.worldgen.sapling.WhiteCherrySaplingGenerator;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Objects;
 
@@ -41,10 +46,15 @@ public class AdditionalWoodModule implements IModule {
     public static EntityType<MBoatEntity> boatEntityType;
 
     public static WoodGroupHolder fir, cherry;
+    public static MSaplingBlock whiteCherrySapling, pinkCherrySapling;
 
     public static Feature<TreeFeatureConfig> FIR_TREE_SMALL;
     public static Feature<TreeFeatureConfig> FIR_TREE;
     public static Feature<TreeFeatureConfig> FIR_TREE_LARGE;
+    public static Feature<TreeFeatureConfig> WHITE_CHERRY_TREE;
+    public static Feature<TreeFeatureConfig> BIG_WHITE_CHERRY_TREE;
+    public static Feature<TreeFeatureConfig> PINK_CHERRY_TREE;
+    public static Feature<TreeFeatureConfig> BIG_PINK_CHERRY_TREE;
 
     @Override
     public void register() {
@@ -56,21 +66,23 @@ public class AdditionalWoodModule implements IModule {
                         .build()
         );
 
+        // fir
+
         fir = registerWoodGroup("fir", MaterialColor.WHITE_TERRACOTTA, MaterialColor.LIGHT_GRAY_TERRACOTTA, new FirSaplingGenerator(), true);
 
-        FIR_TREE_SMALL = Registry.register(Registry.FEATURE, identifier("fir_tree_small"), new TaigaTreeFeature.Builder()
+        FIR_TREE_SMALL = register("fir_tree_small", new TaigaTreeFeature.Builder()
                 .log(fir.log.getDefaultState())
                 .leaves(fir.leaves.getDefaultState())
                 .minHeight(5)
                 .maxHeight(11)
                 .create());
-        FIR_TREE = Registry.register(Registry.FEATURE, identifier("fir_tree"), new TaigaTreeFeature.Builder()
+        FIR_TREE = register("fir_tree", new TaigaTreeFeature.Builder()
                 .log(fir.log.getDefaultState())
                 .leaves(fir.leaves.getDefaultState())
                 .minHeight(5)
                 .maxHeight(28)
                 .create());
-        FIR_TREE_LARGE = Registry.register(Registry.FEATURE, identifier("fir_tree_large"), new TaigaTreeFeature.Builder()
+        FIR_TREE_LARGE = register("fir_tree_large", new TaigaTreeFeature.Builder()
                 .log(fir.log.getDefaultState())
                 .leaves(fir.leaves.getDefaultState())
                 .minHeight(20)
@@ -78,18 +90,50 @@ public class AdditionalWoodModule implements IModule {
                 .trunkWidth(2)
                 .create());
 
+        // cherry
+
+        final String whiteCherry = "white_cherry", pinkCherry = "pink_cherry";
+
+        MMOLeavesBlock whiteCherryLeaves = registerLeaves(whiteCherry, MaterialColor.WHITE);
+        whiteCherrySapling = registerSapling(whiteCherry, new WhiteCherrySaplingGenerator());
+
+        MMOLeavesBlock pinkCherryLeaves = registerLeaves(pinkCherry, MaterialColor.PINK);
+        pinkCherrySapling = registerSapling(pinkCherry, new PinkCherrySaplingGenerator());
+
         cherry = registerWoodGroup("cherry", MaterialColor.RED, MaterialColor.RED_TERRACOTTA, null, false);
+
+        WHITE_CHERRY_TREE = register("white_cherry_tree", new BasicTreeFeature.Builder()
+                .log(cherry.log.getDefaultState())
+                .leaves(whiteCherryLeaves.getDefaultState())
+                .create());
+
+        BIG_WHITE_CHERRY_TREE = register("big_white_cherry_tree", new BigTreeFeature.Builder()
+                .log(cherry.log.getDefaultState())
+                .leaves(whiteCherryLeaves.getDefaultState())
+                .create());
+
+        PINK_CHERRY_TREE = register("pink_cherry_tree", new BasicTreeFeature.Builder()
+                .log(cherry.log.getDefaultState())
+                .leaves(pinkCherryLeaves.getDefaultState())
+                .create());
+
+        BIG_PINK_CHERRY_TREE = register("big_pink_cherry_tree", new BigTreeFeature.Builder()
+                .log(cherry.log.getDefaultState())
+                .leaves(pinkCherryLeaves.getDefaultState())
+                .create());
+    }
+
+    private static Feature<TreeFeatureConfig> register(String name, Feature<TreeFeatureConfig> feature) {
+        return Registry.register(Registry.FEATURE, identifier(name), feature);
     }
 
     private static WoodGroupHolder registerWoodGroup(String name, MaterialColor woodTopColor, MaterialColor woodSideColor, @Nullable SaplingGenerator saplingGenerator, boolean registerLeaves) {
         MMOLeavesBlock leaves = null;
-        if (registerLeaves) {
-            leaves = new MMOLeavesBlock(AbstractBlock.Settings.of(Material.LEAVES)
-                    .strength(0.2F)
-                    .ticksRandomly()
-                    .sounds(BlockSoundGroup.GRASS)
-                    .nonOpaque());
-            new MMOBlockRegistrar(leaves).register(identifier("%s_leaves", name), ITEM_GROUP);
+        if (registerLeaves) leaves = registerLeaves(name, Material.LEAVES.getColor());
+
+        MSaplingBlock sapling = null;
+        if (saplingGenerator != null) {
+            sapling = registerSapling(name, saplingGenerator);
         }
 
         MMOPillarBlock log = createLogBlock(woodTopColor, woodSideColor);
@@ -119,16 +163,6 @@ public class AdditionalWoodModule implements IModule {
                 .withPressurePlate(PressurePlateBlock.ActivationRule.EVERYTHING).withButton(true)
                 .register(identifier(name), ITEM_GROUP, basePath -> basePath.concat("_planks"));
 
-        MSaplingBlock sapling = null;
-        if (saplingGenerator != null) {
-            sapling = new MSaplingBlock(saplingGenerator, AbstractBlock.Settings.of(Material.PLANT)
-                    .noCollision()
-                    .ticksRandomly()
-                    .breakInstantly()
-                    .sounds(BlockSoundGroup.GRASS));
-            new MMOBlockRegistrar(sapling).register(identifier("%s_sapling", name), ITEM_GROUP);
-        }
-
         SignType signType = MAdditionalSigns.registerSignType(name);
 
         MSignBlock sign = new MSignBlock(AbstractBlock.Settings.of(Material.WOOD)
@@ -157,6 +191,30 @@ public class AdditionalWoodModule implements IModule {
                 .register(identifier("%s_boat", name), ITEM_GROUP);
 
         return new WoodGroupHolder(sapling, leaves, log, wood, strippedLog, strippedWood, planks, result, boatType, boatItem);
+    }
+
+    @Nonnull
+    private static MSaplingBlock registerSapling(String name, @Nonnull SaplingGenerator saplingGenerator) {
+        MSaplingBlock sapling;
+        sapling = new MSaplingBlock(saplingGenerator, AbstractBlock.Settings.of(Material.PLANT)
+                .noCollision()
+                .ticksRandomly()
+                .breakInstantly()
+                .sounds(BlockSoundGroup.GRASS));
+        new MMOBlockRegistrar(sapling).register(identifier("%s_sapling", name), ITEM_GROUP);
+        return sapling;
+    }
+
+    @Nonnull
+    private static MMOLeavesBlock registerLeaves(String name, MaterialColor color) {
+        MMOLeavesBlock leaves;
+        leaves = new MMOLeavesBlock(AbstractBlock.Settings.of(Material.LEAVES, color)
+                .strength(0.2F)
+                .ticksRandomly()
+                .sounds(BlockSoundGroup.GRASS)
+                .nonOpaque());
+        new MMOBlockRegistrar(leaves).register(identifier("%s_leaves", name), ITEM_GROUP);
+        return leaves;
     }
 
     private static MMOPillarBlock createLogBlock(MaterialColor topMaterialColor, MaterialColor sideMaterialColor) {

@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-	"mmofoliage:fir_leaves"
+	"mmofoliage:fir_leaves",
+    "mmofoliage:white_cherry_leaves",
+    "mmofoliage:pink_cherry_leaves"
   ]
 }

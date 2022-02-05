@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
-public abstract class AbstractMMOTreeSaplingGenerator extends LargeTreeSaplingGenerator {
+public abstract class AbstractBigTreeSaplingGenerator extends LargeTreeSaplingGenerator {
 
     @Nullable
     @Override

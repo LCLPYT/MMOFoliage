@@ -1,4 +1,4 @@
-package work.lclpnet.mmofoliage.worldgen;
+package work.lclpnet.mmofoliage.worldgen.feature;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -9,6 +9,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.WorldAccess;
 import work.lclpnet.mmofoliage.util.Randoms;
+import work.lclpnet.mmofoliage.worldgen.IBlockPosQuery;
 
 import java.util.Random;
 import java.util.Set;
@@ -82,7 +83,7 @@ public class TaigaTreeFeature extends TreeFeatureBase {
     }
 
     @Override
-    protected boolean place(Set<BlockPos> changedLogs, Set<BlockPos> changedLeaves, WorldAccess world, Random rand, BlockPos position, BlockBox boundingBox) {
+    protected boolean place(Set<BlockPos> changedLogs, Set<BlockPos> changedLeaves, WorldAccess world, Random random, BlockPos position, BlockBox boundingBox) {
         while (position.getY() > 1 && world.isAir(position) || world.getBlockState(position).getMaterial() == Material.LEAVES) {
             position = position.down();
         }
@@ -94,8 +95,8 @@ public class TaigaTreeFeature extends TreeFeatureBase {
                 if (!this.placeOn.matches(world, position.add(height, 0, baseHeight)))
                     return false;
 
-        height = Randoms.getRandomInt(this.minHeight, this.maxHeight, rand);
-        baseHeight = Randoms.getRandomInt(height / 5, height / 3, rand);
+        height = Randoms.getRandomInt(this.minHeight, this.maxHeight, random);
+        baseHeight = Randoms.getRandomInt(height / 5, height / 3, random);
         int leavesHeight = height - baseHeight;
         if (leavesHeight < 3) {
             return false;
@@ -120,15 +121,15 @@ public class TaigaTreeFeature extends TreeFeatureBase {
                     this.placeLeaves(world, pos, changedLeaves, boundingBox);
                 } else if (x < 4) {
                     if (y % 2 == 0) {
-                        this.generateLeafLayer(world, rand, pos, x, trunkStart, trunkEnd, changedLeaves, boundingBox);
+                        this.generateLeafLayer(world, random, pos, x, trunkStart, trunkEnd, changedLeaves, boundingBox);
                     } else {
-                        this.generateLeafLayer(world, rand, pos, x / 2, trunkStart, trunkEnd, changedLeaves, boundingBox);
+                        this.generateLeafLayer(world, random, pos, x / 2, trunkStart, trunkEnd, changedLeaves, boundingBox);
                     }
                 } else if (y % 2 == 0) {
-                    this.generateBranch(world, rand, pos.add(trunkStart, 0, trunkStart), Direction.NORTH, x, changedLogs, changedLeaves, boundingBox);
-                    this.generateBranch(world, rand, pos.add(trunkEnd, 0, trunkStart), Direction.EAST, x, changedLogs, changedLeaves, boundingBox);
-                    this.generateBranch(world, rand, pos.add(trunkEnd, 0, trunkEnd), Direction.SOUTH, x, changedLogs, changedLeaves, boundingBox);
-                    this.generateBranch(world, rand, pos.add(trunkStart, 0, trunkEnd), Direction.WEST, x, changedLogs, changedLeaves, boundingBox);
+                    this.generateBranch(world, random, pos.add(trunkStart, 0, trunkStart), Direction.NORTH, x, changedLogs, changedLeaves, boundingBox);
+                    this.generateBranch(world, random, pos.add(trunkEnd, 0, trunkStart), Direction.EAST, x, changedLogs, changedLeaves, boundingBox);
+                    this.generateBranch(world, random, pos.add(trunkEnd, 0, trunkEnd), Direction.SOUTH, x, changedLogs, changedLeaves, boundingBox);
+                    this.generateBranch(world, random, pos.add(trunkStart, 0, trunkEnd), Direction.WEST, x, changedLogs, changedLeaves, boundingBox);
                 }
 
                 pos = pos.down();

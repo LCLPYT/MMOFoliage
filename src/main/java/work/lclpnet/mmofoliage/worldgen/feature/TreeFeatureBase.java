@@ -1,4 +1,4 @@
-package work.lclpnet.mmofoliage.worldgen;
+package work.lclpnet.mmofoliage.worldgen.feature;
 
 import net.minecraft.block.*;
 import net.minecraft.state.property.Properties;
@@ -13,8 +13,9 @@ import net.minecraft.world.WorldAccess;
 import net.minecraft.world.gen.feature.TreeFeature;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import work.lclpnet.mmofoliage.asm.mixin.common.AbstractBlockAccessor;
-import work.lclpnet.mmofoliage.asm.mixin.common.PlantBlockAccessor;
 import work.lclpnet.mmofoliage.asm.type.IFoliageTreeFeature;
+import work.lclpnet.mmofoliage.util.FTF;
+import work.lclpnet.mmofoliage.worldgen.IBlockPosQuery;
 
 import java.util.Random;
 import java.util.Set;
@@ -125,7 +126,7 @@ public class TreeFeatureBase extends TreeFeature implements IFoliageTreeFeature 
         return this.place(logPositions, leavesPositions, (WorldAccess) world, random, pos, box);
     }
 
-    protected boolean place(Set<BlockPos> changedLogs, Set<BlockPos> changedLeaves, WorldAccess world, Random rand, BlockPos position, BlockBox boundingBox) {
+    protected boolean place(Set<BlockPos> changedLogs, Set<BlockPos> changedLeaves, WorldAccess world, Random random, BlockPos pos, BlockBox boundingBox) {
         return false;
     }
 
@@ -147,8 +148,7 @@ public class TreeFeatureBase extends TreeFeature implements IFoliageTreeFeature 
     @SuppressWarnings("unchecked")
     protected abstract static class BuilderBase<T extends BuilderBase<T, F>, F extends TreeFeatureBase> {
 
-        protected IBlockPosQuery placeOn = (world, pos) -> ((PlantBlockAccessor) Blocks.OAK_SAPLING)
-                .invokeCanPlantOnTop(world.getBlockState(pos), world, pos);
+        protected IBlockPosQuery placeOn = (world, pos) -> FTF.canSustainSapling(Blocks.OAK_SAPLING, world, pos);
 
         protected IBlockPosQuery replace = (world, pos) -> {
             BlockState state = world.getBlockState(pos);
