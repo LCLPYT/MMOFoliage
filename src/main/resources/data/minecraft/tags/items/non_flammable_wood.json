@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+	"mmofoliage:hellbark_log",
+    "mmofoliage:hellbark_wood",
+    "mmofoliage:stripped_hellbark_log",
+    "mmofoliage:stripped_hellbark_wood",
+	"mmofoliage:hellbark_planks",
+	"mmofoliage:hellbark_slab",
+	"mmofoliage:hellbark_pressure_plate",
+	"mmofoliage:hellbark_fence",
+	"mmofoliage:hellbark_trapdoor",
+	"mmofoliage:hellbark_fence_gate",
+	"mmofoliage:hellbark_stairs",
+	"mmofoliage:hellbark_button",
+	"mmofoliage:hellbark_door"
+  ]
+}

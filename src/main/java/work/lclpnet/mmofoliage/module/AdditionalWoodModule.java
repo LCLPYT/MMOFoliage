@@ -26,13 +26,12 @@ import work.lclpnet.mmofoliage.block.MWallSignBlock;
 import work.lclpnet.mmofoliage.entity.MBoatEntity;
 import work.lclpnet.mmofoliage.entity.MBoatType;
 import work.lclpnet.mmofoliage.item.MBoatItem;
+import work.lclpnet.mmofoliage.util.FTF;
 import work.lclpnet.mmofoliage.worldgen.feature.BasicTreeFeature;
 import work.lclpnet.mmofoliage.worldgen.feature.BigTreeFeature;
+import work.lclpnet.mmofoliage.worldgen.feature.BushTreeFeature;
 import work.lclpnet.mmofoliage.worldgen.feature.TaigaTreeFeature;
-import work.lclpnet.mmofoliage.worldgen.sapling.DeadSaplingGenerator;
-import work.lclpnet.mmofoliage.worldgen.sapling.FirSaplingGenerator;
-import work.lclpnet.mmofoliage.worldgen.sapling.PinkCherrySaplingGenerator;
-import work.lclpnet.mmofoliage.worldgen.sapling.WhiteCherrySaplingGenerator;
+import work.lclpnet.mmofoliage.worldgen.sapling.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -46,7 +45,7 @@ public class AdditionalWoodModule implements IModule {
 
     public static EntityType<MBoatEntity> boatEntityType;
 
-    public static WoodGroupHolder fir, cherry, dead;
+    public static WoodGroupHolder fir, cherry, dead, hellbark;
     public static MSaplingBlock whiteCherrySapling, pinkCherrySapling;
 
     public static Feature<TreeFeatureConfig> FIR_TREE_SMALL,
@@ -57,7 +56,8 @@ public class AdditionalWoodModule implements IModule {
             PINK_CHERRY_TREE,
             BIG_PINK_CHERRY_TREE,
             SMALL_DEAD_TREE,
-            DYING_TREE;
+            DYING_TREE,
+            HELLBARK_TREE;
 
     @Override
     public void register() {
@@ -138,6 +138,15 @@ public class AdditionalWoodModule implements IModule {
                 .leaves(dead.leaves.getDefaultState())
                 .maxHeight(10)
                 .foliageHeight(2)
+                .create());
+
+        // hellbark
+        hellbark = registerWoodGroup("hellbark", MaterialColor.GRAY_TERRACOTTA, MaterialColor.LIGHT_GRAY, new HellbarkSaplingGenerator(), true);
+
+        HELLBARK_TREE = register("hellbark_tree", new BushTreeFeature.Builder()
+                .placeOn((world, pos) -> Blocks.NETHERRACK.equals(world.getBlockState(pos).getBlock()) || FTF.canSustainSapling(Blocks.OAK_SAPLING, world, pos))
+                .log(hellbark.log.getDefaultState())
+                .leaves(hellbark.leaves.getDefaultState())
                 .create());
     }
 

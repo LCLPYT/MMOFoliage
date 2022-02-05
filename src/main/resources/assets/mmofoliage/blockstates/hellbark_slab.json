@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "type=bottom": { "model": "mmofoliage:block/hellbark_slab" },
+        "type=top": { "model": "mmofoliage:block/hellbark_slab_top" },
+        "type=double": { "model": "mmofoliage:block/hellbark_planks" }
+    }
+}

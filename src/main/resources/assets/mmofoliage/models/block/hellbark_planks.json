@@ -1,0 +1,6 @@
+{
+    "parent": "block/cube_all",
+    "textures": {
+        "all": "mmofoliage:block/hellbark_planks"
+    }
+}

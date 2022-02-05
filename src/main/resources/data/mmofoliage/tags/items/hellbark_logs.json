@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "mmofoliage:hellbark_log",
+    "mmofoliage:hellbark_wood",
+    "mmofoliage:stripped_hellbark_log",
+    "mmofoliage:stripped_hellbark_wood"
+  ]
+}

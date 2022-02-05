@@ -1,0 +1,7 @@
+{
+    "parent": "block/door_bottom",
+    "textures": {
+        "bottom": "mmofoliage:block/hellbark_door_bottom",
+        "top": "mmofoliage:block/hellbark_door_top"
+    }
+}
