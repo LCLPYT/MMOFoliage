@@ -1,11 +1,13 @@
 {
   "replace": false,
   "values": [
-	"mmofoliage:fir_sapling",
-	"mmofoliage:white_cherry_sapling",
-	"mmofoliage:pink_cherry_sapling",
-	"mmofoliage:jacaranda_sapling",
-	"mmofoliage:dead_sapling",
-	"mmofoliage:hellbark_sapling"
+    "mmofoliage:fir_sapling",
+    "mmofoliage:white_cherry_sapling",
+    "mmofoliage:pink_cherry_sapling",
+    "mmofoliage:jacaranda_sapling",
+    "mmofoliage:dead_sapling",
+    "mmofoliage:hellbark_sapling",
+    "mmofoliage:yellow_autumn_sapling",
+    "mmofoliage:orange_autumn_sapling"
   ]
 }
