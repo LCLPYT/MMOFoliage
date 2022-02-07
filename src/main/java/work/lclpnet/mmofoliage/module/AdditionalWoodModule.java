@@ -29,10 +29,7 @@ import work.lclpnet.mmofoliage.entity.MBoatEntity;
 import work.lclpnet.mmofoliage.entity.MBoatType;
 import work.lclpnet.mmofoliage.item.MBoatItem;
 import work.lclpnet.mmofoliage.util.FTF;
-import work.lclpnet.mmofoliage.worldgen.feature.BasicTreeFeature;
-import work.lclpnet.mmofoliage.worldgen.feature.BigTreeFeature;
-import work.lclpnet.mmofoliage.worldgen.feature.BushTreeFeature;
-import work.lclpnet.mmofoliage.worldgen.feature.TaigaTreeFeature;
+import work.lclpnet.mmofoliage.worldgen.feature.*;
 import work.lclpnet.mmofoliage.worldgen.sapling.*;
 
 import javax.annotation.Nonnull;
@@ -47,7 +44,7 @@ public class AdditionalWoodModule implements IModule {
 
     public static EntityType<MBoatEntity> boatEntityType;
 
-    public static WoodGroupHolder fir, cherry, dead, hellbark, jacaranda;
+    public static WoodGroupHolder fir, cherry, dead, hellbark, jacaranda, palm;
     public static MSaplingBlock
             whiteCherrySapling,
             pinkCherrySapling,
@@ -74,7 +71,8 @@ public class AdditionalWoodModule implements IModule {
             YELLOW_AUTUMN_TREE,
             BIG_YELLOW_AUTUMN_TREE,
             ORANGE_AUTUMN_TREE,
-            BIG_ORANGE_AUTUMN_TREE;
+            BIG_ORANGE_AUTUMN_TREE,
+            PALM_TREE;
 
     @Override
     public void register() {
@@ -180,6 +178,11 @@ public class AdditionalWoodModule implements IModule {
                 .log(jacaranda.log.getDefaultState())
                 .leaves(jacaranda.leaves.getDefaultState())
                 .create());
+
+        // palm
+        palm = registerWoodGroup("palm", MaterialColor.YELLOW_TERRACOTTA, MaterialColor.BROWN_TERRACOTTA, new PalmSaplingGenerator(), true);
+
+        PALM_TREE = register("palm_tree", new PalmTreeFeature.Builder().create());
 
         // yellow autumn
         final String yellowAutumn = "yellow_autumn";

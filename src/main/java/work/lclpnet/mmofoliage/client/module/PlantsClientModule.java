@@ -7,6 +7,7 @@ import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.BlockItem;
+import work.lclpnet.mmofoliage.module.AdditionalWoodModule;
 import work.lclpnet.mmofoliage.module.PlantsModule;
 
 import static work.lclpnet.mmocontent.client.render.block.MMORenderLayers.setBlockRenderType;
@@ -26,12 +27,11 @@ public class PlantsClientModule implements IClientModule {
 
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex)
                         -> world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor(),
-                PlantsModule.bush, PlantsModule.sprout, PlantsModule.pottedSprout);
+                PlantsModule.bush, PlantsModule.sprout, PlantsModule.pottedSprout, AdditionalWoodModule.palm.leaves);
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
             BlockState BlockState = ((BlockItem) stack.getItem()).getBlock().getDefaultState();
             return MinecraftClient.getInstance().getBlockColors().getColor(BlockState, null, null, tintIndex);
-        }, PlantsModule.bush, PlantsModule.sprout);
-
+        }, PlantsModule.bush, PlantsModule.sprout, AdditionalWoodModule.palm.leaves);
     }
 }

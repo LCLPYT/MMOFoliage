@@ -1,0 +1,8 @@
+{
+  "parent": "mmofoliage:block/vertical_slab",
+  "textures": {
+    "bottom": "mmofoliage:block/palm_planks",
+    "top": "mmofoliage:block/palm_planks",
+    "side": "mmofoliage:block/palm_planks"
+  }
+}

@@ -1,0 +1,7 @@
+{
+    "parent": "block/door_top_rh",
+    "textures": {
+        "bottom": "mmofoliage:block/palm_door_bottom",
+        "top": "mmofoliage:block/palm_door_top"
+    }
+}

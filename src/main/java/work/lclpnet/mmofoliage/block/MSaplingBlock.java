@@ -1,11 +1,16 @@
 package work.lclpnet.mmofoliage.block;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.NetherrackBlock;
+import net.minecraft.block.SandBlock;
 import net.minecraft.block.sapling.SaplingGenerator;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.WorldView;
 import work.lclpnet.mmocontent.block.ext.MMOSaplingBlock;
 import work.lclpnet.mmofoliage.asm.mixin.common.SaplingBlockAccessor;
+import work.lclpnet.mmofoliage.module.AdditionalWoodModule;
 
 import java.util.Random;
 
@@ -39,5 +44,17 @@ public class MSaplingBlock extends MMOSaplingBlock {
     @Override
     public void generate(ServerWorld serverWorld, BlockPos blockPos, BlockState blockState, Random random) {
         this.grow(serverWorld, random, blockPos, blockState);
+    }
+
+    @Override
+    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
+        Block ground = world.getBlockState(pos.down()).getBlock();
+        if (this.equals(AdditionalWoodModule.palm.sapling)) {
+            return ground instanceof SandBlock || super.canPlaceAt(state, world, pos);
+        } else if (this.equals(AdditionalWoodModule.hellbark.sapling)) {
+            return ground instanceof NetherrackBlock || super.canPlaceAt(state, world, pos);
+        } else {
+            return super.canPlaceAt(state, world, pos);
+        }
     }
 }
