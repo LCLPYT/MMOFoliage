@@ -8,7 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.WorldAccess;
-import work.lclpnet.mmofoliage.worldgen.IBlockPosQuery;
+import work.lclpnet.mmofoliage.worldgen.BlockPosBiPredicate;
 
 import java.util.List;
 import java.util.Objects;
@@ -22,7 +22,7 @@ public class BigTreeFeature extends TreeFeatureBase {
     private final int foliageHeight;
     private final double foliageDensity;
 
-    protected BigTreeFeature(IBlockPosQuery placeOn, IBlockPosQuery replace, BlockState log, BlockState leaves, BlockState altLeaves, BlockState vine, BlockState hanging, BlockState trunkFruit, int minHeight, int maxHeight, int trunkWidth, int foliageHeight, double foliageDensity) {
+    protected BigTreeFeature(BlockPosBiPredicate placeOn, BlockPosBiPredicate replace, BlockState log, BlockState leaves, BlockState altLeaves, BlockState vine, BlockState hanging, BlockState trunkFruit, int minHeight, int maxHeight, int trunkWidth, int foliageHeight, double foliageDensity) {
         super(placeOn, replace, log, leaves, altLeaves, vine, hanging, trunkFruit, minHeight, maxHeight);
         this.foliageHeight = foliageHeight;
         this.foliageDensity = foliageDensity;

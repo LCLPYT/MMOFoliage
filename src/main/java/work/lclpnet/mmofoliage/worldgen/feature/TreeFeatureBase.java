@@ -15,14 +15,14 @@ import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import work.lclpnet.mmofoliage.asm.mixin.common.AbstractBlockAccessor;
 import work.lclpnet.mmofoliage.asm.type.IFoliageTreeFeature;
 import work.lclpnet.mmofoliage.util.FTF;
-import work.lclpnet.mmofoliage.worldgen.IBlockPosQuery;
+import work.lclpnet.mmofoliage.worldgen.BlockPosBiPredicate;
 
 import java.util.Random;
 import java.util.Set;
 
 public class TreeFeatureBase extends TreeFeature implements IFoliageTreeFeature {
 
-    protected final IBlockPosQuery placeOn, replace;
+    protected final BlockPosBiPredicate placeOn, replace;
     protected final BlockState log;
     protected final BlockState leaves;
     protected final BlockState altLeaves;
@@ -34,7 +34,7 @@ public class TreeFeatureBase extends TreeFeature implements IFoliageTreeFeature 
     protected Property<Direction.Axis> logAxisProperty;
 
     @SuppressWarnings("unchecked")
-    protected TreeFeatureBase(IBlockPosQuery placeOn, IBlockPosQuery replace, BlockState log, BlockState leaves, BlockState altLeaves, BlockState vine, BlockState hanging, BlockState trunkFruit, int minHeight, int maxHeight) {
+    protected TreeFeatureBase(BlockPosBiPredicate placeOn, BlockPosBiPredicate replace, BlockState log, BlockState leaves, BlockState altLeaves, BlockState vine, BlockState hanging, BlockState trunkFruit, int minHeight, int maxHeight) {
         super(TreeFeatureConfig.CODEC.stable());
         this.placeOn = placeOn;
         this.replace = replace;
@@ -148,9 +148,9 @@ public class TreeFeatureBase extends TreeFeature implements IFoliageTreeFeature 
     @SuppressWarnings("unchecked")
     protected abstract static class BuilderBase<T extends BuilderBase<T, F>, F extends TreeFeatureBase> {
 
-        protected IBlockPosQuery placeOn = (world, pos) -> FTF.canSustainSapling(Blocks.OAK_SAPLING, world, pos);
+        protected BlockPosBiPredicate placeOn = (world, pos) -> FTF.canSustainSapling(Blocks.OAK_SAPLING, world, pos);
 
-        protected IBlockPosQuery replace = (world, pos) -> {
+        protected BlockPosBiPredicate replace = (world, pos) -> {
             BlockState state = world.getBlockState(pos);
             Block block = state.getBlock();
             boolean replaceableByLeaves = ((AbstractBlockAccessor) block).getMaterial() == Material.AIR || state.isIn(BlockTags.LEAVES);
@@ -175,12 +175,12 @@ public class TreeFeatureBase extends TreeFeature implements IFoliageTreeFeature 
             this.altLeaves = Blocks.AIR.getDefaultState();
         }
 
-        public T placeOn(IBlockPosQuery a) {
+        public T placeOn(BlockPosBiPredicate a) {
             this.placeOn = a;
             return (T) this;
         }
 
-        public T replace(IBlockPosQuery a) {
+        public T replace(BlockPosBiPredicate a) {
             this.replace = a;
             return (T) this;
         }

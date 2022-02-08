@@ -6,7 +6,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldAccess;
 import work.lclpnet.mmofoliage.util.FTF;
 import work.lclpnet.mmofoliage.util.Randoms;
-import work.lclpnet.mmofoliage.worldgen.IBlockPosQuery;
+import work.lclpnet.mmofoliage.worldgen.BlockPosBiPredicate;
 
 import java.util.Random;
 import java.util.Set;
@@ -15,7 +15,7 @@ import static work.lclpnet.mmofoliage.module.AdditionalWoodModule.palm;
 
 public class PalmTreeFeature extends TreeFeatureBase {
     
-    protected PalmTreeFeature(IBlockPosQuery placeOn, IBlockPosQuery replace, BlockState log, BlockState leaves, BlockState altLeaves, BlockState vine, BlockState hanging, BlockState trunkFruit, int minHeight, int maxHeight) {
+    protected PalmTreeFeature(BlockPosBiPredicate placeOn, BlockPosBiPredicate replace, BlockState log, BlockState leaves, BlockState altLeaves, BlockState vine, BlockState hanging, BlockState trunkFruit, int minHeight, int maxHeight) {
         super(placeOn, replace, log, leaves, altLeaves, vine, hanging, trunkFruit, minHeight, maxHeight);
     }
 

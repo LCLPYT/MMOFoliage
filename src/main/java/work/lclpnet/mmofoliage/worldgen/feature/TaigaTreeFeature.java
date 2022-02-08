@@ -9,7 +9,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.WorldAccess;
 import work.lclpnet.mmofoliage.util.Randoms;
-import work.lclpnet.mmofoliage.worldgen.IBlockPosQuery;
+import work.lclpnet.mmofoliage.worldgen.BlockPosBiPredicate;
 
 import java.util.Random;
 import java.util.Set;
@@ -17,7 +17,7 @@ import java.util.Set;
 public class TaigaTreeFeature extends TreeFeatureBase {
     private int trunkWidth;
 
-    protected TaigaTreeFeature(IBlockPosQuery placeOn, IBlockPosQuery replace, BlockState log, BlockState leaves, BlockState altLeaves, BlockState vine, BlockState hanging, BlockState trunkFruit, int minHeight, int maxHeight, int trunkWidth) {
+    protected TaigaTreeFeature(BlockPosBiPredicate placeOn, BlockPosBiPredicate replace, BlockState log, BlockState leaves, BlockState altLeaves, BlockState vine, BlockState hanging, BlockState trunkFruit, int minHeight, int maxHeight, int trunkWidth) {
         super(placeOn, replace, log, leaves, altLeaves, vine, hanging, trunkFruit, minHeight, maxHeight);
         this.trunkWidth = trunkWidth;
     }

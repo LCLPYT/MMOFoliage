@@ -7,14 +7,14 @@ import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldAccess;
 import work.lclpnet.mmofoliage.util.Randoms;
-import work.lclpnet.mmofoliage.worldgen.IBlockPosQuery;
+import work.lclpnet.mmofoliage.worldgen.BlockPosBiPredicate;
 
 import java.util.Random;
 import java.util.Set;
 
 public class BushTreeFeature extends TreeFeatureBase {
 
-    protected BushTreeFeature(IBlockPosQuery placeOn, IBlockPosQuery replace, BlockState log, BlockState leaves, BlockState altLeaves, BlockState vine, BlockState hanging, BlockState trunkFruit, int minHeight, int maxHeight) {
+    protected BushTreeFeature(BlockPosBiPredicate placeOn, BlockPosBiPredicate replace, BlockState log, BlockState leaves, BlockState altLeaves, BlockState vine, BlockState hanging, BlockState trunkFruit, int minHeight, int maxHeight) {
         super(placeOn, replace, log, leaves, altLeaves, vine, hanging, trunkFruit, minHeight, maxHeight);
     }
 

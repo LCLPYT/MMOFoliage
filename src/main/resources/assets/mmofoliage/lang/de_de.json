@@ -39,6 +39,7 @@
   "block.mmofoliage.dead_sapling": "Verwelkter Setzling",
   "block.mmofoliage.dead_sign": "Totholzschild",
   "block.mmofoliage.dead_slab": "Totholzstufe",
+  "block.mmofoliage.dead_vertical_slab": "vertikale Totholzstufe",
   "block.mmofoliage.dead_stairs": "Totholztreppe",
   "block.mmofoliage.dead_trapdoor": "Totholzfalltür",
   "block.mmofoliage.dead_wall_sign": "Totholzwandschild",
@@ -55,6 +56,7 @@
   "block.mmofoliage.fir_sapling": "Tannenbaumsetzling",
   "block.mmofoliage.fir_sign": "Tannenholzschild",
   "block.mmofoliage.fir_slab": "Tannenholzstufe",
+  "block.mmofoliage.fir_vertical_slab": "vertikale Tannenholzstufe",
   "block.mmofoliage.fir_stairs": "Tannenholztreppe",
   "block.mmofoliage.fir_trapdoor": "Tannenholzfalltür",
   "block.mmofoliage.fir_wall_sign": "Tannenholzwandschild",
@@ -74,6 +76,7 @@
   "block.mmofoliage.hellbark_sapling": "Höllenborkensetzling",
   "block.mmofoliage.hellbark_sign": "Höllenborkenschild",
   "block.mmofoliage.hellbark_slab": "Höllenborkenstufe",
+  "block.mmofoliage.hellbark_vertical_slab": "vertikale Höllenborkenstufe",
   "block.mmofoliage.hellbark_stairs": "Höllenborkentreppe",
   "block.mmofoliage.hellbark_trapdoor": "Höllenborkenfalltür",
   "block.mmofoliage.hellbark_wall_sign": "Höllenborkenwandschild",
@@ -89,6 +92,7 @@
   "block.mmofoliage.jacaranda_sapling": "Palisandersetzling",
   "block.mmofoliage.jacaranda_sign": "Palisanderholzschild",
   "block.mmofoliage.jacaranda_slab": "Palisanderholzstufe",
+  "block.mmofoliage.jacaranda_vertical_slab": "vertikale Palisanderholzstufe",
   "block.mmofoliage.jacaranda_stairs": "Palisanderholztreppe",
   "block.mmofoliage.jacaranda_trapdoor": "Palisanderholzfalltür",
   "block.mmofoliage.jacaranda_wall_sign": "Palisanderholzwandschild",
@@ -110,6 +114,7 @@
   "block.mmofoliage.palm_sapling": "Palmensetzling",
   "block.mmofoliage.palm_sign": "Palmenholzschild",
   "block.mmofoliage.palm_slab": "Palmenholzstufe",
+  "block.mmofoliage.palm_vertical_slab": "vertikale Palmenholzstufe",
   "block.mmofoliage.palm_stairs": "Palmenholztreppe",
   "block.mmofoliage.palm_trapdoor": "Palmenholzfalltür",
   "block.mmofoliage.palm_wall_sign": "Palmenholzwandschild",
@@ -171,6 +176,7 @@
   "block.mmofoliage.willow_sapling": "Weidensetzling",
   "block.mmofoliage.willow_sign": "Weidenholzschild",
   "block.mmofoliage.willow_slab": "Weidenholzstufe",
+  "block.mmofoliage.willow_vertical_slab": "vertikale Weidenholzstufe",
   "block.mmofoliage.willow_stairs": "Weidenholztreppe",
   "block.mmofoliage.willow_trapdoor": "Weidenholzfalltür",
   "block.mmofoliage.willow_vine": "Weidenranke",
@@ -178,5 +184,7 @@
   "block.mmofoliage.willow_wood": "Weidenholz",
   "block.mmofoliage.wilted_lily": "Verwelkte Lilie",
   "block.mmofoliage.yellow_autumn_leaves": "Gelbes Herbstlaub",
-  "block.mmofoliage.yellow_autumn_sapling": "Gelber Herbstbaumsetzling"
+  "block.mmofoliage.yellow_autumn_sapling": "Gelber Herbstbaumsetzling",
+
+  "entity.mmofoliage.boat": "Boot"
 }
