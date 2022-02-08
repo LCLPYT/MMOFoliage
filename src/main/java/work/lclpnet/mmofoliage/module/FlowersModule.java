@@ -92,7 +92,7 @@ public class FlowersModule implements IModule {
 
         new MMOBlockRegistrar(block).register(MMOFoliage.identifier(name), MMOFoliage.ITEM_GROUP);
 
-        FlowerPotBlock potted = MMOPottedPlantUtil.addPottedPlant(block, name, MMOFoliage::identifier);
+        FlowerPotBlock potted = MMOPottedPlantUtil.addPottedPlant(block, name, transformer, MMOFoliage::identifier);
 
         return new RegisteredFlower(block, potted);
     }

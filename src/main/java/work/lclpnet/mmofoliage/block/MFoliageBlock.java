@@ -54,9 +54,9 @@ public class MFoliageBlock extends PlantBlock implements IMMOBlock {
 
         if (this.equals(PlantsModule.sprout)) {
             return groundState.isSideSolidFullSquare(world, pos.down(), Direction.UP) || super.canPlaceAt(state, world, pos);
-        } else if (this.equals(PlantsModule.dune_grass)) {
+        } else if (this.equals(PlantsModule.duneGrass)) {
             return ground instanceof SandBlock;
-        } else if (this.equals(PlantsModule.dead_grass)) {
+        } else if (this.equals(PlantsModule.deadGrass)) {
             return ground instanceof SandBlock || ground instanceof GravelBlock;
         }
 

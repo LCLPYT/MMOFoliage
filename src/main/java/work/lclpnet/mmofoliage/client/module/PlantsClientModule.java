@@ -20,18 +20,20 @@ public class PlantsClientModule implements IClientModule {
 
         setBlockRenderType(PlantsModule.bush, cutout);
         setBlockRenderType(PlantsModule.sprout, cutout);
-        setBlockRenderType(PlantsModule.dead_grass, cutout);
-        setBlockRenderType(PlantsModule.dune_grass, cutout);
+        setBlockRenderType(PlantsModule.deadGrass, cutout);
+        setBlockRenderType(PlantsModule.duneGrass, cutout);
 
         setBlockRenderType(PlantsModule.pottedSprout, cutout);
 
+        setBlockRenderType(PlantsModule.willowVine, cutout);
+
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex)
                         -> world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor(),
-                PlantsModule.bush, PlantsModule.sprout, PlantsModule.pottedSprout, AdditionalWoodModule.palm.leaves);
+                PlantsModule.bush, PlantsModule.sprout, PlantsModule.pottedSprout, AdditionalWoodModule.palm.leaves, PlantsModule.willowVine);
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
             BlockState BlockState = ((BlockItem) stack.getItem()).getBlock().getDefaultState();
             return MinecraftClient.getInstance().getBlockColors().getColor(BlockState, null, null, tintIndex);
-        }, PlantsModule.bush, PlantsModule.sprout, AdditionalWoodModule.palm.leaves);
+        }, PlantsModule.bush, PlantsModule.sprout, AdditionalWoodModule.palm.leaves, PlantsModule.willowVine);
     }
 }

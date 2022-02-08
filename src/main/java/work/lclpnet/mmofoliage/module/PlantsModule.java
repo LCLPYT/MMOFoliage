@@ -6,13 +6,15 @@ import net.minecraft.block.Material;
 import net.minecraft.sound.BlockSoundGroup;
 import work.lclpnet.mmocontent.block.MMOBlockRegistrar;
 import work.lclpnet.mmocontent.block.MMOPottedPlantUtil;
+import work.lclpnet.mmocontent.block.ext.MMOVineBlock;
 import work.lclpnet.mmofoliage.MMOFoliage;
 import work.lclpnet.mmofoliage.block.MFoliageBlock;
 
 public class PlantsModule implements IModule {
 
-    public static MFoliageBlock bush, sprout, dune_grass, dead_grass;
+    public static MFoliageBlock bush, sprout, duneGrass, deadGrass;
     public static FlowerPotBlock pottedSprout;
+    public static MMOVineBlock willowVine;
 
     @Override
     public void register() {
@@ -24,11 +26,14 @@ public class PlantsModule implements IModule {
 
         pottedSprout = MMOPottedPlantUtil.addPottedPlant(sprout, "sprout", MMOFoliage::identifier);
 
-        new MMOBlockRegistrar(dune_grass = new MFoliageBlock(getPlantSettings()))
+        new MMOBlockRegistrar(duneGrass = new MFoliageBlock(getPlantSettings()))
                 .register(MMOFoliage.identifier("dune_grass"), MMOFoliage.ITEM_GROUP);
 
-        new MMOBlockRegistrar(dead_grass = new MFoliageBlock(getPlantSettings()))
+        new MMOBlockRegistrar(deadGrass = new MFoliageBlock(getPlantSettings()))
                 .register(MMOFoliage.identifier("dead_grass"), MMOFoliage.ITEM_GROUP);
+
+        new MMOBlockRegistrar(willowVine = new MMOVineBlock())
+                .register(MMOFoliage.identifier("willow_vine"), MMOFoliage.ITEM_GROUP);
     }
 
     protected AbstractBlock.Settings getPlantSettings() {
