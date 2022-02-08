@@ -3,6 +3,7 @@ package work.lclpnet.mmofoliage.client;
 import com.google.common.collect.ImmutableSet;
 import net.fabricmc.api.ClientModInitializer;
 import work.lclpnet.mmofoliage.client.module.AdditionalWoodClientModule;
+import work.lclpnet.mmofoliage.client.module.FlowersClientModule;
 import work.lclpnet.mmofoliage.client.module.IClientModule;
 import work.lclpnet.mmofoliage.client.module.PlantsClientModule;
 
@@ -12,6 +13,7 @@ public class MMOFoliageClient implements ClientModInitializer {
 
     private static Set<IClientModule> modules = ImmutableSet.of(
             new PlantsClientModule(),
+            new FlowersClientModule(),
             new AdditionalWoodClientModule()
     );
 

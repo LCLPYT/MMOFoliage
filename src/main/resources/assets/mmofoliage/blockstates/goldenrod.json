@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "half=lower": { "model": "mmofoliage:block/goldenrod_bottom" },
+        "half=upper": { "model": "mmofoliage:block/goldenrod_top" }
+    }
+}
