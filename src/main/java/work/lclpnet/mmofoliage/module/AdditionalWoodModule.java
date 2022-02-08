@@ -49,12 +49,14 @@ public class AdditionalWoodModule implements IModule {
             whiteCherrySapling,
             pinkCherrySapling,
             yellowAutumnSapling,
-            orangeAutumnSapling;
+            orangeAutumnSapling,
+            mapleSapling;
     public static FlowerPotBlock
             pottedWhiteCherrySapling,
             pottedPinkCherrySapling,
             pottedYellowAutumnSapling,
-            pottedOrangeAutumnSapling;
+            pottedOrangeAutumnSapling,
+            pottedMapleSapling;
 
     public static Feature<TreeFeatureConfig> FIR_TREE_SMALL,
             FIR_TREE,
@@ -72,7 +74,9 @@ public class AdditionalWoodModule implements IModule {
             BIG_YELLOW_AUTUMN_TREE,
             ORANGE_AUTUMN_TREE,
             BIG_ORANGE_AUTUMN_TREE,
-            PALM_TREE;
+            PALM_TREE,
+            MAPLE_TREE,
+            BIG_MAPLE_TREE;
 
     @Override
     public void register() {
@@ -220,6 +224,24 @@ public class AdditionalWoodModule implements IModule {
         BIG_ORANGE_AUTUMN_TREE = register("big_orange_autumn_tree", new BigTreeFeature.Builder()
                 .log(Blocks.DARK_OAK_LOG.getDefaultState())
                 .leaves(orangeAutumnLeaves.getDefaultState())
+                .create());
+
+        // maple
+        final String maple = "maple";
+        MMOLeavesBlock mapleLeaves = registerLeaves(maple, MaterialColor.RED);
+
+        final RegisteredSapling maplePlant = registerSapling(maple, new MapleSaplingGenerator());
+        mapleSapling = maplePlant.sapling;
+        pottedMapleSapling = maplePlant.potted;
+
+        MAPLE_TREE = register("maple_tree", new BasicTreeFeature.Builder()
+                .leaves(mapleLeaves.getDefaultState())
+                .minHeight(5)
+                .maxHeight(10)
+                .create());
+
+        BIG_MAPLE_TREE = register("big_maple_tree", new BigTreeFeature.Builder()
+                .leaves(mapleLeaves.getDefaultState())
                 .create());
     }
 
