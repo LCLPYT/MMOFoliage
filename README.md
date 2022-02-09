@@ -24,3 +24,9 @@ To build the project, use:
 ```bash
 ./gradlew build
 ```
+
+## Credit
+The blocks and items of this mod were inspired by Biomes O' Plenty.
+Translations and tree generation were taken from it.
+
+All textures in this mod were (re)created by Jarry_ and LCLP.
