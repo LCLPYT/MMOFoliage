@@ -10,9 +10,9 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.sound.BlockSoundGroup;
 import work.lclpnet.mmocontent.block.MMOBlockRegistrar;
 import work.lclpnet.mmocontent.block.MMOPottedPlantUtil;
+import work.lclpnet.mmocontent.block.ext.MMOTallFlowerBlock;
 import work.lclpnet.mmofoliage.MMOFoliage;
 import work.lclpnet.mmofoliage.block.MFlowerBlock;
-import work.lclpnet.mmofoliage.block.MTallFlowerBlock;
 
 import java.util.function.Function;
 
@@ -36,7 +36,7 @@ public class FlowersModule implements IModule {
             pottedGlowflower,
             pottedWiltedLily;
 
-    public static MTallFlowerBlock blueHydrangea, goldenrod;
+    public static MMOTallFlowerBlock blueHydrangea, goldenrod;
 
     @Override
     public void register() {
@@ -97,8 +97,8 @@ public class FlowersModule implements IModule {
         return new RegisteredFlower(block, potted);
     }
 
-    private MTallFlowerBlock registerTallFlower(String name) {
-        final MTallFlowerBlock block = new MTallFlowerBlock(AbstractBlock.Settings.of(Material.PLANT)
+    private MMOTallFlowerBlock registerTallFlower(String name) {
+        final MMOTallFlowerBlock block = new MMOTallFlowerBlock(AbstractBlock.Settings.of(Material.PLANT)
                 .noCollision()
                 .breakInstantly()
                 .sounds(BlockSoundGroup.GRASS));

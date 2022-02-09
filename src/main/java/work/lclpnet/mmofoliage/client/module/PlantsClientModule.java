@@ -8,9 +8,9 @@ import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.BlockItem;
 import work.lclpnet.mmofoliage.module.AdditionalWoodModule;
-import work.lclpnet.mmofoliage.module.PlantsModule;
 
 import static work.lclpnet.mmocontent.client.render.block.MMORenderLayers.setBlockRenderType;
+import static work.lclpnet.mmofoliage.module.PlantsModule.*;
 
 public class PlantsClientModule implements IClientModule {
 
@@ -18,22 +18,23 @@ public class PlantsClientModule implements IClientModule {
     public void register() {
         final RenderLayer cutout = RenderLayer.getCutout();
 
-        setBlockRenderType(PlantsModule.bush, cutout);
-        setBlockRenderType(PlantsModule.sprout, cutout);
-        setBlockRenderType(PlantsModule.deadGrass, cutout);
-        setBlockRenderType(PlantsModule.duneGrass, cutout);
+        setBlockRenderType(bush, cutout);
+        setBlockRenderType(sprout, cutout);
+        setBlockRenderType(deadGrass, cutout);
+        setBlockRenderType(duneGrass, cutout);
 
-        setBlockRenderType(PlantsModule.pottedSprout, cutout);
+        setBlockRenderType(pottedSprout, cutout);
 
-        setBlockRenderType(PlantsModule.willowVine, cutout);
+        setBlockRenderType(willowVine, cutout);
+        setBlockRenderType(cattail, cutout);
 
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex)
                         -> world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor(),
-                PlantsModule.bush, PlantsModule.sprout, PlantsModule.pottedSprout, AdditionalWoodModule.palm.leaves, PlantsModule.willowVine);
+                bush, sprout, pottedSprout, AdditionalWoodModule.palm.leaves, willowVine);
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
             BlockState BlockState = ((BlockItem) stack.getItem()).getBlock().getDefaultState();
             return MinecraftClient.getInstance().getBlockColors().getColor(BlockState, null, null, tintIndex);
-        }, PlantsModule.bush, PlantsModule.sprout, AdditionalWoodModule.palm.leaves, PlantsModule.willowVine);
+        }, bush, sprout, AdditionalWoodModule.palm.leaves, willowVine);
     }
 }

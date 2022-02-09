@@ -1,27 +1,23 @@
 package work.lclpnet.mmofoliage.block;
 
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.SandBlock;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldView;
-import work.lclpnet.mmocontent.block.ext.IMMOBlock;
+import work.lclpnet.mmocontent.block.ext.MMOFlowerBlock;
 import work.lclpnet.mmofoliage.module.FlowersModule;
 
-public class MFlowerBlock extends FlowerBlock implements IMMOBlock {
+public class MFlowerBlock extends MMOFlowerBlock {
 
     protected static final VoxelShape LARGE_SHAPE = Block.createCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 14.0D, 15.0D);
 
     public MFlowerBlock(StatusEffect suspiciousStewEffect, int effectDuration, Settings settings) {
         super(suspiciousStewEffect, effectDuration, settings);
-    }
-
-    @Override
-    public BlockItem provideBlockItem(Item.Settings settings) {
-        return new BlockItem(this, settings);
     }
 
     @Override

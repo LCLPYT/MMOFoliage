@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "half=lower": { "model": "mmofoliage:block/cattail_bottom" },
+        "half=upper": { "model": "mmofoliage:block/cattail_top" }
+    }
+}
