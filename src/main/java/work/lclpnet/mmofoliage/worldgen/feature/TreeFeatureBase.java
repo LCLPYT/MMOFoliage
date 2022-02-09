@@ -14,6 +14,7 @@ import net.minecraft.world.gen.feature.TreeFeature;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import work.lclpnet.mmofoliage.asm.mixin.common.AbstractBlockAccessor;
 import work.lclpnet.mmofoliage.asm.type.IFoliageTreeFeature;
+import work.lclpnet.mmofoliage.module.PlantsModule;
 import work.lclpnet.mmofoliage.util.FTF;
 import work.lclpnet.mmofoliage.worldgen.BlockPosBiPredicate;
 
@@ -154,7 +155,7 @@ public class TreeFeatureBase extends TreeFeature implements IFoliageTreeFeature 
             BlockState state = world.getBlockState(pos);
             Block block = state.getBlock();
             boolean replaceableByLeaves = ((AbstractBlockAccessor) block).getMaterial() == Material.AIR || state.isIn(BlockTags.LEAVES);
-            return replaceableByLeaves || block instanceof PlantBlock || block.equals(Blocks.VINE);// || block == willow_vine || block == dead_branch;
+            return replaceableByLeaves || block instanceof PlantBlock || block.equals(Blocks.VINE) || block.equals(PlantsModule.willowVine) || block.equals(PlantsModule.deadBranch);
         };
 
         protected BlockState log;

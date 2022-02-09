@@ -1,0 +1,8 @@
+{
+    "parent": "block/stairs",
+    "textures": {
+        "bottom": "mmofoliage:block/willow_planks",
+        "top": "mmofoliage:block/willow_planks",
+        "side": "mmofoliage:block/willow_planks"
+    }
+}

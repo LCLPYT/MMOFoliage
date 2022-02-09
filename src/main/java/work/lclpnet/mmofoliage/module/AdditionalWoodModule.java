@@ -44,7 +44,7 @@ public class AdditionalWoodModule implements IModule {
 
     public static EntityType<MBoatEntity> boatEntityType;
 
-    public static WoodGroupHolder fir, cherry, dead, hellbark, jacaranda, palm;
+    public static WoodGroupHolder fir, cherry, dead, hellbark, jacaranda, palm, willow;
     public static MSaplingBlock
             whiteCherrySapling,
             pinkCherrySapling,
@@ -75,6 +75,7 @@ public class AdditionalWoodModule implements IModule {
             ORANGE_AUTUMN_TREE,
             BIG_ORANGE_AUTUMN_TREE,
             PALM_TREE,
+            WILLOW_TREE,
             MAPLE_TREE,
             BIG_MAPLE_TREE;
 
@@ -187,6 +188,19 @@ public class AdditionalWoodModule implements IModule {
         palm = registerWoodGroup("palm", MaterialColor.YELLOW_TERRACOTTA, MaterialColor.BROWN_TERRACOTTA, new PalmSaplingGenerator(), true);
 
         PALM_TREE = register("palm_tree", new PalmTreeFeature.Builder().create());
+
+        // willow
+        willow = registerWoodGroup("willow", MaterialColor.LIME_TERRACOTTA, MaterialColor.LIME_TERRACOTTA, new WillowSaplingGenerator(), true);
+
+        WILLOW_TREE = register("willow_tree", new BasicTreeFeature.Builder()
+                .log(willow.log.getDefaultState())
+                .leaves(willow.leaves.getDefaultState())
+                .vine(PlantsModule.willowVine.getDefaultState())
+                .minHeight(6)
+                .maxHeight(10)
+                .maxLeavesRadius(2)
+                .leavesOffset(0)
+                .create());
 
         // yellow autumn
         final String yellowAutumn = "yellow_autumn";

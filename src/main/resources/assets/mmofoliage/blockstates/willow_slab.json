@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "type=bottom": { "model": "mmofoliage:block/willow_slab" },
+        "type=top": { "model": "mmofoliage:block/willow_slab_top" },
+        "type=double": { "model": "mmofoliage:block/willow_planks" }
+    }
+}

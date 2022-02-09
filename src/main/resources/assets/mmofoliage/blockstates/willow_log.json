@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "axis=y":    { "model": "mmofoliage:block/willow_log" },
+        "axis=z":     { "model": "mmofoliage:block/willow_log", "x": 90 },
+        "axis=x":     { "model": "mmofoliage:block/willow_log", "x": 90, "y": 90 }
+    }
+}

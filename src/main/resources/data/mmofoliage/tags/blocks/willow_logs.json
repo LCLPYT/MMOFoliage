@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "mmofoliage:willow_log",
+    "mmofoliage:willow_wood",
+    "mmofoliage:stripped_willow_log",
+    "mmofoliage:stripped_willow_wood"
+  ]
+}

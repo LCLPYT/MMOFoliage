@@ -31,13 +31,18 @@ public class PlantsClientModule implements IClientModule {
         setBlockRenderType(reed, cutout);
         setBlockRenderType(deadBranch, cutout);
 
+        setBlockRenderType(glowshroom, cutout);
+        setBlockRenderType(toadstool, cutout);
+        setBlockRenderType(pottedGlowshroom, cutout);
+        setBlockRenderType(pottedToadstool, cutout);
+
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex)
                         -> world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor(),
-                bush, sprout, pottedSprout, AdditionalWoodModule.palm.leaves, willowVine);
+                bush, sprout, pottedSprout, AdditionalWoodModule.palm.leaves, willowVine, AdditionalWoodModule.willow.leaves);
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
             BlockState BlockState = ((BlockItem) stack.getItem()).getBlock().getDefaultState();
             return MinecraftClient.getInstance().getBlockColors().getColor(BlockState, null, null, tintIndex);
-        }, bush, sprout, AdditionalWoodModule.palm.leaves, willowVine);
+        }, bush, sprout, AdditionalWoodModule.palm.leaves, willowVine, AdditionalWoodModule.willow.leaves);
     }
 }

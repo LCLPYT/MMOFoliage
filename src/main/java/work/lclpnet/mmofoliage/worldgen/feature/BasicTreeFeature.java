@@ -82,7 +82,7 @@ public class BasicTreeFeature extends TreeFeatureBase {
                 generateTrunk(changedLogs, boundingBox, world, pos, height);
                 if (this.vine != Blocks.AIR.getDefaultState())
                     for (i = pos.getY() - leavesLayers + height; i <= pos.getY() + height; i++) {
-                        int currentLayer = i - pos.getY() + height;
+                        int currentLayer = i - (pos.getY() + height);
                         int leavesRadius = this.maxLeavesRadius + this.leavesOffset - currentLayer / this.leavesLayerHeight;
                         for (int x = pos.getX() - leavesRadius; x <= pos.getX() + leavesRadius; x++) {
                             for (int z = pos.getZ() - leavesRadius; z <= pos.getZ() + leavesRadius; z++) {

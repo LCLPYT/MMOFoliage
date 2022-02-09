@@ -1,0 +1,7 @@
+{
+    "parent": "block/cube_column",
+    "textures": {
+        "end": "mmofoliage:block/willow_log",
+        "side": "mmofoliage:block/willow_log"
+    }
+}
