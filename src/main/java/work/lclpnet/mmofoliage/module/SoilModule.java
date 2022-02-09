@@ -1,16 +1,26 @@
 package work.lclpnet.mmofoliage.module;
 
 import net.fabricmc.fabric.api.tag.TagRegistry;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.Material;
+import net.minecraft.block.MaterialColor;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.tag.Tag;
 import work.lclpnet.mmocontent.block.MMOBlockRegistrar;
 import work.lclpnet.mmofoliage.MMOFoliage;
 import work.lclpnet.mmofoliage.block.FleshBlock;
+import work.lclpnet.mmofoliage.block.MMushroomBlock;
 import work.lclpnet.mmofoliage.block.MudBlock;
+
+import static work.lclpnet.mmofoliage.MMOFoliage.ITEM_GROUP;
+import static work.lclpnet.mmofoliage.MMOFoliage.identifier;
 
 public class SoilModule implements IModule {
 
     public static Tag<Block> dirt;
+    public static MMushroomBlock glowshroom_block;
+    public static MMushroomBlock toadstool_block;
 
     @Override
     public void register() {
@@ -21,5 +31,16 @@ public class SoilModule implements IModule {
                 .register(MMOFoliage.identifier("flesh"), MMOFoliage.ITEM_GROUP);
 
         dirt = TagRegistry.block(MMOFoliage.identifier("dirt"));
+
+        new MMOBlockRegistrar(glowshroom_block = new MMushroomBlock(AbstractBlock.Settings.of(Material.WOOD, MaterialColor.DIAMOND)
+                .strength(0.2F)
+                .sounds(BlockSoundGroup.WOOD)
+                .luminance(state -> 10)))
+                .register(identifier("glowshroom_block"), ITEM_GROUP);
+
+        new MMOBlockRegistrar(toadstool_block = new MMushroomBlock(AbstractBlock.Settings.of(Material.WOOD, MaterialColor.ORANGE)
+                .strength(0.2F)
+                .sounds(BlockSoundGroup.WOOD)))
+                .register(identifier("toadstool_block"), ITEM_GROUP);
     }
 }
