@@ -26,7 +26,9 @@ public class PlantsClientModule implements IClientModule {
         setBlockRenderType(pottedSprout, cutout);
 
         setBlockRenderType(willowVine, cutout);
+        setBlockRenderType(barley, cutout);
         setBlockRenderType(cattail, cutout);
+        setBlockRenderType(reed, cutout);
 
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex)
                         -> world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefaultColor(),

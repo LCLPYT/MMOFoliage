@@ -1,41 +1,32 @@
 package work.lclpnet.mmofoliage.block;
 
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Material;
+import net.minecraft.block.Waterloggable;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
-import work.lclpnet.mmocontent.block.ext.IMMOBlock;
-import work.lclpnet.mmofoliage.util.FTF;
 
-import java.util.Iterator;
-
-public class MTallWaterPlantBlock extends TallPlantBlock implements IMMOBlock, Waterloggable {
+public class MTallWaterPlantBlock extends MTallPlantBlock implements Waterloggable {
 
     public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 
     public MTallWaterPlantBlock(Settings settings) {
         super(settings);
         setDefaultState(getDefaultState().with(WATERLOGGED, false));
-    }
-
-    @Override
-    public BlockItem provideBlockItem(Item.Settings settings) {
-        return new BlockItem(this, settings);
     }
 
     @Nullable
@@ -62,36 +53,17 @@ public class MTallWaterPlantBlock extends TallPlantBlock implements IMMOBlock, W
 
     @Override
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        if (state.getBlock() != this) {
-            return super.canPlaceAt(state, world, pos);
+        if (state.get(HALF) != DoubleBlockHalf.UPPER) {
+            BlockPos posBelow = pos.down();
+            BlockState existingState = world.getBlockState(pos);
+            Block existingBlock = existingState.getBlock();
+            return (existingBlock == this || existingState.getMaterial() == Material.WATER) && this.isExposed(world, pos.up()) && world.getBlockState(posBelow).isSideSolidFullSquare(world, posBelow, Direction.UP);
         } else {
-            BlockState soil;
-            if (state.get(HALF) != DoubleBlockHalf.UPPER) {
-                soil = world.getBlockState(pos.down());
-
-                if (!FTF.canSustainBeach(soil, world, pos.down())) {
-                    return false;
-                } else {
-                    BlockPos down = pos.down();
-                    Iterator<Direction> iterator = Direction.Type.HORIZONTAL.iterator();
-
-                    BlockState blockState;
-                    FluidState fluidState;
-                    do {
-                        if (!iterator.hasNext()) {
-                            return false;
-                        }
-
-                        Direction dir = iterator.next();
-                        blockState = world.getBlockState(down.offset(dir));
-                        fluidState = world.getFluidState(down.offset(dir));
-                    } while (!fluidState.isIn(FluidTags.WATER) && blockState.getBlock() != Blocks.FROSTED_ICE);
-
-                    return true;
-                }
+            BlockState blockstate = world.getBlockState(pos.down());
+            if (state.getBlock() != this) {
+                return world.isAir(pos);
             } else {
-                soil = world.getBlockState(pos.down());
-                return soil.getBlock() == this && soil.get(HALF) == DoubleBlockHalf.LOWER;
+                return this.isExposed(world, pos) && blockstate.getBlock() == this && blockstate.get(HALF) == DoubleBlockHalf.LOWER && (Boolean)blockstate.get(WATERLOGGED);
             }
         }
     }
@@ -110,6 +82,11 @@ public class MTallWaterPlantBlock extends TallPlantBlock implements IMMOBlock, W
     public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
         boolean water = world.getFluidState(pos.up()).getFluid() == Fluids.WATER;
         world.setBlockState(pos.up(), this.getDefaultState().with(HALF, DoubleBlockHalf.UPPER).with(WATERLOGGED, water), 3);
+    }
+
+    protected boolean isExposed(WorldView world, BlockPos pos) {
+        BlockState state = world.getBlockState(pos);
+        return state.getBlock() == this ? !(Boolean)state.get(WATERLOGGED) : world.isAir(pos);
     }
 
     @Override

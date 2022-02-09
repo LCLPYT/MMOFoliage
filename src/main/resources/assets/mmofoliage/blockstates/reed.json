@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "half=lower": { "model": "mmofoliage:block/reed_bottom" },
+        "half=upper": { "model": "mmofoliage:block/reed_top" }
+    }
+}

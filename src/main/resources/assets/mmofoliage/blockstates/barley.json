@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "half=lower": { "model": "mmofoliage:block/barley_bottom" },
+        "half=upper": { "model": "mmofoliage:block/barley_top" }
+    }
+}

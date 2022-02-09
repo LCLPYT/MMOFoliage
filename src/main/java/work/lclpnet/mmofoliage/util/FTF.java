@@ -25,8 +25,10 @@ public class FTF {
         for (Direction face : Direction.Type.HORIZONTAL) {
             BlockState blockState = world.getBlockState(pos.offset(face));
             FluidState fluidState = world.getFluidState(pos.offset(face));
-            hasWater = blockState.isOf(Blocks.FROSTED_ICE) || fluidState.isIn(FluidTags.WATER);
-            if (hasWater) break;
+            if (blockState.isOf(Blocks.FROSTED_ICE) || fluidState.isIn(FluidTags.WATER)) {
+                hasWater = true;
+                break;
+            }
         }
         return isBeach && hasWater;
     }

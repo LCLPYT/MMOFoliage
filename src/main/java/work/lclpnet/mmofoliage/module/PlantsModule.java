@@ -10,7 +10,9 @@ import work.lclpnet.mmocontent.block.MMOPottedPlantUtil;
 import work.lclpnet.mmocontent.block.ext.MMOVineBlock;
 import work.lclpnet.mmofoliage.MMOFoliage;
 import work.lclpnet.mmofoliage.block.MFoliageBlock;
+import work.lclpnet.mmofoliage.block.MTallPlantBlock;
 import work.lclpnet.mmofoliage.block.MTallWaterPlantBlock;
+import work.lclpnet.mmofoliage.block.MTallWatersidePlantBlock;
 
 import static work.lclpnet.mmofoliage.MMOFoliage.ITEM_GROUP;
 import static work.lclpnet.mmofoliage.MMOFoliage.identifier;
@@ -20,7 +22,9 @@ public class PlantsModule implements IModule {
     public static MFoliageBlock bush, sprout, duneGrass, deadGrass;
     public static FlowerPotBlock pottedSprout;
     public static MMOVineBlock willowVine;
-    public static MTallWaterPlantBlock cattail;
+    public static MTallPlantBlock barley;
+    public static MTallWatersidePlantBlock cattail;
+    public static MTallWaterPlantBlock reed;
 
     @Override
     public void register() {
@@ -41,8 +45,14 @@ public class PlantsModule implements IModule {
         new MMOBlockRegistrar(willowVine = new MMOVineBlock())
                 .register(identifier("willow_vine"), ITEM_GROUP);
 
-        new MMOBlockRegistrar(cattail = new MTallWaterPlantBlock(getPlantSettings(Material.PLANT, MaterialColor.DIRT)))
+        new MMOBlockRegistrar(barley = new MTallPlantBlock(getPlantSettings(Material.PLANT, MaterialColor.YELLOW_TERRACOTTA)))
+                .register(identifier("barley"), ITEM_GROUP);
+
+        new MMOBlockRegistrar(cattail = new MTallWatersidePlantBlock(getPlantSettings(Material.PLANT, MaterialColor.DIRT)))
                 .register(identifier("cattail"), ITEM_GROUP);
+
+        new MMOBlockRegistrar(reed = new MTallWaterPlantBlock(getPlantSettings(Material.UNDERWATER_PLANT, MaterialColor.DIRT)))
+                .register(identifier("reed"), ITEM_GROUP);
     }
 
     protected AbstractBlock.Settings getPlantSettings() {
