@@ -9,10 +9,7 @@ import work.lclpnet.mmocontent.block.MMOBlockRegistrar;
 import work.lclpnet.mmocontent.block.MMOPottedPlantUtil;
 import work.lclpnet.mmocontent.block.ext.MMOVineBlock;
 import work.lclpnet.mmofoliage.MMOFoliage;
-import work.lclpnet.mmofoliage.block.MFoliageBlock;
-import work.lclpnet.mmofoliage.block.MTallPlantBlock;
-import work.lclpnet.mmofoliage.block.MTallWaterPlantBlock;
-import work.lclpnet.mmofoliage.block.MTallWatersidePlantBlock;
+import work.lclpnet.mmofoliage.block.*;
 
 import static work.lclpnet.mmofoliage.MMOFoliage.ITEM_GROUP;
 import static work.lclpnet.mmofoliage.MMOFoliage.identifier;
@@ -25,6 +22,7 @@ public class PlantsModule implements IModule {
     public static MTallPlantBlock barley;
     public static MTallWatersidePlantBlock cattail;
     public static MTallWaterPlantBlock reed;
+    public static DeadBranchBlock deadBranch;
 
     @Override
     public void register() {
@@ -53,6 +51,9 @@ public class PlantsModule implements IModule {
 
         new MMOBlockRegistrar(reed = new MTallWaterPlantBlock(getPlantSettings(Material.UNDERWATER_PLANT, MaterialColor.DIRT)))
                 .register(identifier("reed"), ITEM_GROUP);
+
+        new MMOBlockRegistrar(deadBranch = new DeadBranchBlock())
+                .register(identifier("dead_branch"), ITEM_GROUP);
     }
 
     protected AbstractBlock.Settings getPlantSettings() {
