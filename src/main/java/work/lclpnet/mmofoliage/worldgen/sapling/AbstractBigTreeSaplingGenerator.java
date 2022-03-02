@@ -7,8 +7,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.ConfiguredFeatures;
-import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,19 +16,19 @@ public abstract class AbstractBigTreeSaplingGenerator extends LargeTreeSaplingGe
 
     @Nullable
     @Override
-    protected ConfiguredFeature<TreeFeatureConfig, ?> createLargeTreeFeature(Random random) {
+    protected ConfiguredFeature<TreeFeatureConfig, ?> getLargeTreeFeature(Random random) {
         return null;
     }
 
     @Nullable
     @Override
-    protected ConfiguredFeature<TreeFeatureConfig, ?> createTreeFeature(Random random, boolean bl) {
+    protected ConfiguredFeature<TreeFeatureConfig, ?> getTreeFeature(Random random, boolean bl) {
         return null;
     }
 
-    protected abstract Feature<? extends TreeFeatureConfig> getFeature(Random random);
+    protected abstract ConfiguredFeature<?, ?> getFeature(Random random);
 
-    protected abstract Feature<? extends TreeFeatureConfig> getBigFeature(Random random);
+    protected abstract ConfiguredFeature<?, ?> getBigFeature(Random random);
 
     @Override
     public boolean generate(ServerWorld serverWorld, ChunkGenerator chunkGenerator, BlockPos blockPos, BlockState blockState, Random random) {
@@ -42,13 +40,12 @@ public abstract class AbstractBigTreeSaplingGenerator extends LargeTreeSaplingGe
             }
         }
 
-        @SuppressWarnings("unchecked")
-        Feature<TreeFeatureConfig> feature = (Feature<TreeFeatureConfig>) this.getFeature(random);
+        ConfiguredFeature<?, ?> feature = this.getFeature(random);
         if (feature == null) {
             return false;
         } else {
             serverWorld.setBlockState(blockPos, Blocks.AIR.getDefaultState(), 4);
-            if (feature.generate(serverWorld, chunkGenerator, random, blockPos, ConfiguredFeatures.OAK.getConfig())) {
+            if (feature.generate(serverWorld, chunkGenerator, random, blockPos)) {
                 return true;
             } else {
                 serverWorld.setBlockState(blockPos, blockState, 4);
@@ -59,8 +56,7 @@ public abstract class AbstractBigTreeSaplingGenerator extends LargeTreeSaplingGe
 
     @Override
     public boolean generateLargeTree(ServerWorld serverWorld, ChunkGenerator chunkGenerator, BlockPos blockPos, BlockState blockState, Random random, int x, int z) {
-        @SuppressWarnings("unchecked")
-        Feature<TreeFeatureConfig> feature = (Feature<TreeFeatureConfig>)this.getBigFeature(random);
+        ConfiguredFeature<?, ?> feature = this.getBigFeature(random);
 
         if (feature == null) {
             return false;
@@ -70,7 +66,7 @@ public abstract class AbstractBigTreeSaplingGenerator extends LargeTreeSaplingGe
             serverWorld.setBlockState(blockPos.add(x + 1, 0, z), blockstate, 4);
             serverWorld.setBlockState(blockPos.add(x, 0, z + 1), blockstate, 4);
             serverWorld.setBlockState(blockPos.add(x + 1, 0, z + 1), blockstate, 4);
-            if (feature.generate(serverWorld, chunkGenerator, random, blockPos.add(x, 0, z), ConfiguredFeatures.OAK.getConfig())) {
+            if (feature.generate(serverWorld, chunkGenerator, random, blockPos.add(x, 0, z))) {
                 return true;
             } else {
                 serverWorld.setBlockState(blockPos.add(x, 0, z), blockstate, 4);

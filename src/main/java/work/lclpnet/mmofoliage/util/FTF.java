@@ -20,7 +20,7 @@ public class FTF {
     }
 
     public static boolean canSustainBeach(BlockState state, WorldView world, BlockPos pos) {
-        boolean isBeach = state.isOf(Blocks.GRASS_BLOCK) || state.getBlock().isIn(SoilModule.dirt) || state.getBlock() instanceof SandBlock;
+        boolean isBeach = state.isOf(Blocks.GRASS_BLOCK) || state.isIn(SoilModule.dirt) || state.getBlock() instanceof SandBlock;
         boolean hasWater = false;
         for (Direction face : Direction.Type.HORIZONTAL) {
             BlockState blockState = world.getBlockState(pos.offset(face));

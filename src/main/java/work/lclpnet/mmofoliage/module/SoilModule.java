@@ -1,10 +1,10 @@
 package work.lclpnet.mmofoliage.module;
 
-import net.fabricmc.fabric.api.tag.TagRegistry;
+import net.fabricmc.fabric.api.tag.TagFactory;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.MapColor;
 import net.minecraft.block.Material;
-import net.minecraft.block.MaterialColor;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.tag.Tag;
 import work.lclpnet.mmocontent.block.MMOBlockRegistrar;
@@ -30,15 +30,15 @@ public class SoilModule implements IModule {
         new MMOBlockRegistrar(new FleshBlock())
                 .register(MMOFoliage.identifier("flesh"), MMOFoliage.ITEM_GROUP);
 
-        dirt = TagRegistry.block(MMOFoliage.identifier("dirt"));
+        dirt =TagFactory.BLOCK.create(MMOFoliage.identifier("dirt"));
 
-        new MMOBlockRegistrar(glowshroom_block = new MMushroomBlock(AbstractBlock.Settings.of(Material.WOOD, MaterialColor.DIAMOND)
+        new MMOBlockRegistrar(glowshroom_block = new MMushroomBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.DIAMOND_BLUE)
                 .strength(0.2F)
                 .sounds(BlockSoundGroup.WOOD)
                 .luminance(state -> 10)))
                 .register(identifier("glowshroom_block"), ITEM_GROUP);
 
-        new MMOBlockRegistrar(toadstool_block = new MMushroomBlock(AbstractBlock.Settings.of(Material.WOOD, MaterialColor.ORANGE)
+        new MMOBlockRegistrar(toadstool_block = new MMushroomBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.ORANGE)
                 .strength(0.2F)
                 .sounds(BlockSoundGroup.WOOD)))
                 .register(identifier("toadstool_block"), ITEM_GROUP);

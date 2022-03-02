@@ -9,9 +9,9 @@ import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.WorldAccess;
-import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.util.FeatureContext;
 import work.lclpnet.mmofoliage.module.SoilModule;
 import work.lclpnet.mmofoliage.worldgen.BlockPosBiPredicate;
 
@@ -31,8 +31,12 @@ public class HugeToadstoolFeature extends Feature<DefaultFeatureConfig> {
     }
 
     @Override
-    public boolean generate(StructureWorldAccess world, ChunkGenerator chunkGenerator, Random random, BlockPos pos, DefaultFeatureConfig config) {
-        while(pos.getY() > 1 && this.replace.matches(world, pos)) {
+    public boolean generate(FeatureContext<DefaultFeatureConfig> context) {
+        StructureWorldAccess world = context.getWorld();
+        Random random = context.getRandom();
+        BlockPos pos = context.getOrigin();
+
+        while (pos.getY() > world.getDimension().getMinimumY() && this.replace.matches(world, pos)) {
             pos = pos.down();
         }
 

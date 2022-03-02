@@ -3,8 +3,8 @@ package work.lclpnet.mmofoliage.module;
 import com.google.common.base.Functions;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.FlowerPotBlock;
+import net.minecraft.block.MapColor;
 import net.minecraft.block.Material;
-import net.minecraft.block.MaterialColor;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.sound.BlockSoundGroup;
@@ -44,7 +44,7 @@ public class FlowersModule implements IModule {
         FlowersModule.violet = violet.plant;
         pottedViolet = violet.potted;
 
-        final RegisteredFlower lavender = registerFlower("lavender", StatusEffects.HEALTH_BOOST, 5, MaterialColor.MAGENTA);
+        final RegisteredFlower lavender = registerFlower("lavender", StatusEffects.HEALTH_BOOST, 5, MapColor.MAGENTA);
         FlowersModule.lavender = lavender.plant;
         pottedLavender = lavender.potted;
 
@@ -60,7 +60,7 @@ public class FlowersModule implements IModule {
         FlowersModule.pinkHibiscus = pinkHibiscus.plant;
         pottedPinkHibiscus = pinkHibiscus.potted;
 
-        final RegisteredFlower glowflower = registerFlower("glowflower", StatusEffects.GLOWING, 10, MaterialColor.FOLIAGE,
+        final RegisteredFlower glowflower = registerFlower("glowflower", StatusEffects.GLOWING, 10, MapColor.DARK_GREEN,
                 settings -> settings.luminance(state -> 9));
         FlowersModule.glowflower = glowflower.plant;
         pottedGlowflower = glowflower.potted;
@@ -74,14 +74,14 @@ public class FlowersModule implements IModule {
     }
 
     private RegisteredFlower registerFlower(String name, StatusEffect effect, int duration) {
-        return registerFlower(name, effect, duration, MaterialColor.FOLIAGE);
+        return registerFlower(name, effect, duration, MapColor.DARK_GREEN);
     }
 
-    private RegisteredFlower registerFlower(String name, StatusEffect effect, int duration, MaterialColor color) {
+    private RegisteredFlower registerFlower(String name, StatusEffect effect, int duration, MapColor color) {
         return registerFlower(name, effect, duration, color, Functions.identity());
     }
 
-    private RegisteredFlower registerFlower(String name, StatusEffect effect, int duration, MaterialColor color,
+    private RegisteredFlower registerFlower(String name, StatusEffect effect, int duration, MapColor color,
                                             Function<AbstractBlock.Settings, AbstractBlock.Settings> transformer) {
         final AbstractBlock.Settings settings = AbstractBlock.Settings.of(Material.PLANT, color)
                 .noCollision()

@@ -1,6 +1,6 @@
 package work.lclpnet.mmofoliage.client.module;
 
-import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.BoatEntityRenderer;
 import net.minecraft.entity.EntityType;
@@ -16,7 +16,7 @@ public class AdditionalWoodClientModule implements IClientModule {
 
     @Override
     public void register() {
-        EntityRendererRegistry.INSTANCE.register(AdditionalWoodModule.boatEntityType, (manager, context) -> new BoatEntityRenderer(manager));
+        EntityRendererRegistry.register(AdditionalWoodModule.boatEntityType, BoatEntityRenderer::new);
 
         @SuppressWarnings("unchecked")
         MMOClientEntities.EntityFactory<MBoatEntity> factory = (type, world) -> new MBoatEntity((EntityType<? extends BoatEntity>) type, world);

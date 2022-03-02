@@ -2,10 +2,10 @@
   "required": true,
   "minVersion": "0.8",
   "package": "work.lclpnet.mmofoliage.asm.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_17",
   "client": [
-    "client.MixinTexturedRenderLayers",
-    "client.MixinBoatEntityRenderer"
+    "client.MixinBoatEntityRenderer",
+    "client.MixinTexturedRenderLayers"
   ],
   "injectors": {
     "defaultRequire": 1
@@ -18,6 +18,7 @@
     "common.MixinTreeFeature",
     "common.PlantBlockAccessor",
     "common.SaplingBlockAccessor",
-    "common.SignTypeAccessor"
+    "common.SignTypeAccessor",
+    "common.TreeFeatureAccessor"
   ]
 }

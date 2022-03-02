@@ -1,14 +1,14 @@
 package work.lclpnet.mmofoliage.asm.type;
 
-import net.minecraft.util.math.BlockBox;
+import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ModifiableTestableWorld;
+import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 
 import java.util.Random;
-import java.util.Set;
+import java.util.function.BiConsumer;
 
 public interface IFoliageTreeFeature {
 
-    boolean generateCustomTree(ModifiableTestableWorld world, Random random, BlockPos pos, Set<BlockPos> logPositions, Set<BlockPos> leavesPositions, BlockBox box, TreeFeatureConfig config);
+    boolean generateCustomTree(StructureWorldAccess world, Random random, BlockPos startPos, BiConsumer<BlockPos, BlockState> logs, BiConsumer<BlockPos, BlockState> leaves, TreeFeatureConfig configBase);
 }

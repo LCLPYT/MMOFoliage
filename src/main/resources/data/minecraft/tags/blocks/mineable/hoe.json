@@ -1,0 +1,16 @@
+{
+  "replace": false,
+  "values": [
+	"mmofoliage:yellow_autumn_leaves",
+	"mmofoliage:orange_autumn_leaves",
+	"mmofoliage:maple_leaves",
+	"mmofoliage:fir_leaves",
+	"mmofoliage:white_cherry_leaves",
+	"mmofoliage:pink_cherry_leaves",
+	"mmofoliage:jacaranda_leaves",
+	"mmofoliage:palm_leaves",
+	"mmofoliage:willow_leaves",
+	"mmofoliage:dead_leaves",
+	"mmofoliage:hellbark_leaves"
+  ]
+}

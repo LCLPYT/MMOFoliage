@@ -10,9 +10,13 @@ import net.minecraft.item.SignItem;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.SignType;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.FeatureConfig;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
+import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import work.lclpnet.mmocontent.block.MMOBlockRegistrar;
 import work.lclpnet.mmocontent.block.MMOPottedPlantUtil;
 import work.lclpnet.mmocontent.block.ext.MMOBlock;
@@ -28,7 +32,7 @@ import work.lclpnet.mmofoliage.block.MWallSignBlock;
 import work.lclpnet.mmofoliage.entity.MBoatEntity;
 import work.lclpnet.mmofoliage.entity.MBoatType;
 import work.lclpnet.mmofoliage.item.MBoatItem;
-import work.lclpnet.mmofoliage.util.FTF;
+import work.lclpnet.mmofoliage.worldgen.config.*;
 import work.lclpnet.mmofoliage.worldgen.feature.*;
 import work.lclpnet.mmofoliage.worldgen.sapling.*;
 
@@ -58,7 +62,15 @@ public class AdditionalWoodModule implements IModule {
             pottedOrangeAutumnSapling,
             pottedMapleSapling;
 
-    public static Feature<TreeFeatureConfig> FIR_TREE_SMALL,
+    public static AbstractTreeFeature<?>
+            BASIC_TREE,
+            TAIGA_TREE,
+            BIG_TREE,
+            TWIGLET_TREE,
+            BASE_PALM_TREE;
+
+    public static ConfiguredFeature<TreeFeatureConfig, ?>
+            FIR_TREE_SMALL,
             FIR_TREE,
             FIR_TREE_LARGE,
             WHITE_CHERRY_TREE,
@@ -89,181 +101,186 @@ public class AdditionalWoodModule implements IModule {
                         .build()
         );
 
-        // fir
-        fir = registerWoodGroup("fir", MaterialColor.WHITE_TERRACOTTA, MaterialColor.LIGHT_GRAY_TERRACOTTA, new FirSaplingGenerator(), true);
+        // base features
+        BASIC_TREE = (BasicTreeFeature) register("basic_tree", new BasicTreeFeature(BasicTreeConfig.TYPE_CODEC));
+        BIG_TREE = (BigTreeFeature) register("big_tree", new BigTreeFeature(BigTreeConfig.TYPE_CODEC));
+        TAIGA_TREE = (TaigaTreeFeature) register("taiga_tree", new TaigaTreeFeature(TaigaTreeConfig.TYPE_CODEC));
+        TWIGLET_TREE = (TwigletTreeFeature) register("twiglet_tree", new TwigletTreeFeature(TwigletTreeConfig.TYPE_CODEC));
+        BASE_PALM_TREE = (PalmTreeFeature) register("palm_tree", new PalmTreeFeature(PalmTreeConfig.TYPE_CODEC));
 
-        FIR_TREE_SMALL = register("fir_tree_small", new TaigaTreeFeature.Builder()
-                .log(fir.log.getDefaultState())
-                .leaves(fir.leaves.getDefaultState())
-                .minHeight(5)
-                .maxHeight(11)
-                .create());
-        FIR_TREE = register("fir_tree", new TaigaTreeFeature.Builder()
-                .log(fir.log.getDefaultState())
-                .leaves(fir.leaves.getDefaultState())
-                .minHeight(5)
-                .maxHeight(28)
-                .create());
-        FIR_TREE_LARGE = register("fir_tree_large", new TaigaTreeFeature.Builder()
-                .log(fir.log.getDefaultState())
-                .leaves(fir.leaves.getDefaultState())
-                .minHeight(20)
-                .maxHeight(40)
-                .trunkWidth(2)
-                .create());
+        // fir
+        fir = registerWoodGroup("fir", MapColor.TERRACOTTA_WHITE, MapColor.TERRACOTTA_LIGHT_GRAY, new FirSaplingGenerator(), true);
+
+        FIR_TREE_SMALL = registerConfigured("fir_tree_small", TAIGA_TREE.configure(createFirBuilder().minHeight(5).maxHeight(11).build()));
+        FIR_TREE = registerConfigured("fir_tree", TAIGA_TREE.configure(createFirBuilder().minHeight(5).maxHeight(28).build()));
+        FIR_TREE_LARGE = registerConfigured("fir_tree_large", TAIGA_TREE.configure(createFirBuilder().minHeight(20).maxHeight(40).trunkWidth(2).build()));
 
         // cherry
         final String whiteCherry = "white_cherry", pinkCherry = "pink_cherry";
 
-        MMOLeavesBlock whiteCherryLeaves = registerLeaves(whiteCherry, MaterialColor.WHITE);
+        MMOLeavesBlock whiteCherryLeaves = registerLeaves(whiteCherry, MapColor.WHITE);
         RegisteredSapling whiteCherryPlant = registerSapling(whiteCherry, new WhiteCherrySaplingGenerator());
         AdditionalWoodModule.whiteCherrySapling = whiteCherryPlant.sapling;
         AdditionalWoodModule.pottedWhiteCherrySapling = whiteCherryPlant.potted;
 
-        MMOLeavesBlock pinkCherryLeaves = registerLeaves(pinkCherry, MaterialColor.PINK);
+        MMOLeavesBlock pinkCherryLeaves = registerLeaves(pinkCherry, MapColor.PINK);
         RegisteredSapling pinkCherryPlant = registerSapling(pinkCherry, new PinkCherrySaplingGenerator());
         AdditionalWoodModule.pinkCherrySapling = pinkCherryPlant.sapling;
         AdditionalWoodModule.pottedPinkCherrySapling = pinkCherryPlant.potted;
 
-        cherry = registerWoodGroup("cherry", MaterialColor.RED, MaterialColor.RED_TERRACOTTA, null, false);
+        cherry = registerWoodGroup("cherry", MapColor.RED, MapColor.TERRACOTTA_RED, null, false);
 
-        WHITE_CHERRY_TREE = register("white_cherry_tree", new BasicTreeFeature.Builder()
-                .log(cherry.log.getDefaultState())
-                .leaves(whiteCherryLeaves.getDefaultState())
-                .create());
+        WHITE_CHERRY_TREE = registerConfigured("white_cherry_tree", BASIC_TREE.configure(new BasicTreeConfig.Builder()
+                .trunk(BlockStateProvider.of(cherry.log.getDefaultState()))
+                .foliage(BlockStateProvider.of(whiteCherryLeaves.getDefaultState()))
+                .build()));
 
-        BIG_WHITE_CHERRY_TREE = register("big_white_cherry_tree", new BigTreeFeature.Builder()
-                .log(cherry.log.getDefaultState())
-                .leaves(whiteCherryLeaves.getDefaultState())
-                .create());
+        BIG_WHITE_CHERRY_TREE = registerConfigured("big_white_cherry_tree", BIG_TREE.configure(new BigTreeConfig.Builder()
+                .trunk(BlockStateProvider.of(cherry.log.getDefaultState()))
+                .foliage(BlockStateProvider.of(whiteCherryLeaves.getDefaultState()))
+                .build()));
 
-        PINK_CHERRY_TREE = register("pink_cherry_tree", new BasicTreeFeature.Builder()
-                .log(cherry.log.getDefaultState())
-                .leaves(pinkCherryLeaves.getDefaultState())
-                .create());
+        PINK_CHERRY_TREE = registerConfigured("pink_cherry_tree", BASIC_TREE.configure(new BasicTreeConfig.Builder()
+                .trunk(BlockStateProvider.of(cherry.log.getDefaultState()))
+                .foliage(BlockStateProvider.of(pinkCherryLeaves.getDefaultState()))
+                .build()));
 
-        BIG_PINK_CHERRY_TREE = register("big_pink_cherry_tree", new BigTreeFeature.Builder()
-                .log(cherry.log.getDefaultState())
-                .leaves(pinkCherryLeaves.getDefaultState())
-                .create());
+        BIG_PINK_CHERRY_TREE = registerConfigured("big_pink_cherry_tree", BIG_TREE.configure(new BigTreeConfig.Builder()
+                .trunk(BlockStateProvider.of(cherry.log.getDefaultState()))
+                .foliage(BlockStateProvider.of(pinkCherryLeaves.getDefaultState()))
+                .build()));
 
         // dead
-        dead = registerWoodGroup("dead", MaterialColor.STONE, MaterialColor.STONE, new DeadSaplingGenerator(), true);
+        dead = registerWoodGroup("dead", MapColor.STONE_GRAY, MapColor.STONE_GRAY, new DeadSaplingGenerator(), true);
 
-        SMALL_DEAD_TREE = register("small_dead_tree", new BasicTreeFeature.Builder()
-                .log(dead.log.getDefaultState())
-                .leaves(dead.leaves.getDefaultState())
-                .create());
+        SMALL_DEAD_TREE = registerConfigured("small_dead_tree", BASIC_TREE.configure(new BasicTreeConfig.Builder()
+                .trunk(BlockStateProvider.of(dead.log.getDefaultState()))
+                .foliage(BlockStateProvider.of(dead.leaves.getDefaultState()))
+                .build()));
 
-        DYING_TREE = register("dying_tree", new BigTreeFeature.Builder()
-                .log(dead.log.getDefaultState())
-                .leaves(dead.leaves.getDefaultState())
+        DYING_TREE = registerConfigured("dying_tree", BIG_TREE.configure(new BigTreeConfig.Builder()
+                .trunk(BlockStateProvider.of(dead.log.getDefaultState()))
+                .foliage(BlockStateProvider.of(dead.leaves.getDefaultState()))
                 .maxHeight(10)
                 .foliageHeight(2)
-                .create());
+                .build()));
 
         // hellbark
-        hellbark = registerWoodGroup("hellbark", MaterialColor.GRAY_TERRACOTTA, MaterialColor.LIGHT_GRAY, new HellbarkSaplingGenerator(), true);
+        hellbark = registerWoodGroup("hellbark", MapColor.TERRACOTTA_GRAY, MapColor.LIGHT_GRAY, new HellbarkSaplingGenerator(), true);
 
-        HELLBARK_TREE = register("hellbark_tree", new BushTreeFeature.Builder()
-                .placeOn((world, pos) -> Blocks.NETHERRACK.equals(world.getBlockState(pos).getBlock()) || FTF.canSustainSapling(Blocks.OAK_SAPLING, world, pos))
-                .log(hellbark.log.getDefaultState())
-                .leaves(hellbark.leaves.getDefaultState())
-                .create());
+        HELLBARK_TREE = registerConfigured("hellbark_tree", TWIGLET_TREE.configure(new TwigletTreeConfig.Builder()
+                .trunk(BlockStateProvider.of(hellbark.log.getDefaultState()))
+                .foliage(BlockStateProvider.of(hellbark.leaves.getDefaultState()))
+                .build()));
 
         // jacaranda
-        jacaranda = registerWoodGroup("jacaranda", MaterialColor.WHITE_TERRACOTTA, MaterialColor.LIGHT_GRAY_TERRACOTTA, new JacarandaSaplingGenerator(), true);
+        jacaranda = registerWoodGroup("jacaranda", MapColor.TERRACOTTA_WHITE, MapColor.TERRACOTTA_LIGHT_GRAY, new JacarandaSaplingGenerator(), true);
 
-        JACARANDA_TREE = register("jacaranda_tree", new BasicTreeFeature.Builder()
-                .log(jacaranda.log.getDefaultState())
-                .leaves(jacaranda.leaves.getDefaultState())
-                .create());
+        JACARANDA_TREE = registerConfigured("jacaranda_tree", BASIC_TREE.configure(new BasicTreeConfig.Builder()
+                .trunk(BlockStateProvider.of(jacaranda.log.getDefaultState()))
+                .foliage(BlockStateProvider.of(jacaranda.leaves.getDefaultState()))
+                .build()));
 
-        BIG_JACARANDA_TREE = register("big_jacaranda_tree", new BigTreeFeature.Builder()
-                .log(jacaranda.log.getDefaultState())
-                .leaves(jacaranda.leaves.getDefaultState())
-                .create());
+        BIG_JACARANDA_TREE = registerConfigured("big_jacaranda_tree", BIG_TREE.configure(new BigTreeConfig.Builder()
+                .trunk(BlockStateProvider.of(jacaranda.log.getDefaultState()))
+                .foliage(BlockStateProvider.of(jacaranda.leaves.getDefaultState()))
+                .build()));
 
         // palm
-        palm = registerWoodGroup("palm", MaterialColor.YELLOW_TERRACOTTA, MaterialColor.BROWN_TERRACOTTA, new PalmSaplingGenerator(), true);
+        palm = registerWoodGroup("palm", MapColor.TERRACOTTA_YELLOW, MapColor.TERRACOTTA_BROWN, new PalmSaplingGenerator(), true);
 
-        PALM_TREE = register("palm_tree", new PalmTreeFeature.Builder().create());
+        PALM_TREE = registerConfigured("palm_tree", BASE_PALM_TREE.configure(new PalmTreeConfig.Builder()
+                .trunk(BlockStateProvider.of(palm.log.getDefaultState()))
+                .foliage(BlockStateProvider.of(palm.leaves.getDefaultState().with(LeavesBlock.PERSISTENT, true)))
+                .build()));
 
         // willow
-        willow = registerWoodGroup("willow", MaterialColor.LIME_TERRACOTTA, MaterialColor.LIME_TERRACOTTA, new WillowSaplingGenerator(), true);
+        willow = registerWoodGroup("willow", MapColor.TERRACOTTA_LIME, MapColor.TERRACOTTA_LIME, new WillowSaplingGenerator(), true);
 
-        WILLOW_TREE = register("willow_tree", new BasicTreeFeature.Builder()
-                .log(willow.log.getDefaultState())
-                .leaves(willow.leaves.getDefaultState())
-                .vine(PlantsModule.willowVine.getDefaultState())
+        WILLOW_TREE = registerConfigured("willow_tree", BASIC_TREE.configure(new BasicTreeConfig.Builder()
+                .trunk(BlockStateProvider.of(willow.log.getDefaultState()))
+                .foliage(BlockStateProvider.of(willow.leaves.getDefaultState()))
+                .vine(BlockStateProvider.of(PlantsModule.willowVine))
                 .minHeight(6)
                 .maxHeight(10)
                 .maxLeavesRadius(2)
                 .leavesOffset(0)
-                .create());
+                .build()));
 
         // yellow autumn
         final String yellowAutumn = "yellow_autumn";
-        MMOLeavesBlock yellowAutumnLeaves = registerLeaves(yellowAutumn, MaterialColor.YELLOW_TERRACOTTA);
+        MMOLeavesBlock yellowAutumnLeaves = registerLeaves(yellowAutumn, MapColor.TERRACOTTA_YELLOW);
 
         RegisteredSapling yellowAutumnPlant = registerSapling(yellowAutumn, new YellowAutumnSaplingGenerator());
         yellowAutumnSapling = yellowAutumnPlant.sapling;
         pottedYellowAutumnSapling = yellowAutumnPlant.potted;
 
-        YELLOW_AUTUMN_TREE = register("yellow_autumn_tree", new BasicTreeFeature.Builder()
-                .log(Blocks.BIRCH_LOG.getDefaultState())
-                .leaves(yellowAutumnLeaves.getDefaultState())
+        YELLOW_AUTUMN_TREE = registerConfigured("yellow_autumn_tree", BASIC_TREE.configure(new BasicTreeConfig.Builder()
+                .trunk(BlockStateProvider.of(Blocks.BIRCH_LOG.getDefaultState()))
+                .foliage(BlockStateProvider.of(yellowAutumnLeaves.getDefaultState()))
                 .minHeight(5)
                 .maxHeight(8)
-                .create());
-        BIG_YELLOW_AUTUMN_TREE = register("big_yellow_autumn_tree", new BigTreeFeature.Builder()
-                .log(Blocks.BIRCH_LOG.getDefaultState())
-                .leaves(yellowAutumnLeaves.getDefaultState())
-                .create());
+                .build()));
+
+        BIG_YELLOW_AUTUMN_TREE = registerConfigured("big_yellow_autumn_tree", BIG_TREE.configure(new BigTreeConfig.Builder()
+                .trunk(BlockStateProvider.of(Blocks.BIRCH_LOG.getDefaultState()))
+                .foliage(BlockStateProvider.of(yellowAutumnLeaves.getDefaultState()))
+                .build()));
 
         // orange autumn
         final String orangeAutumn = "orange_autumn";
-        MMOLeavesBlock orangeAutumnLeaves = registerLeaves(orangeAutumn, MaterialColor.ORANGE_TERRACOTTA);
+        MMOLeavesBlock orangeAutumnLeaves = registerLeaves(orangeAutumn, MapColor.TERRACOTTA_ORANGE);
 
         RegisteredSapling orangeAutumnPlant = registerSapling(orangeAutumn, new OrangeAutumnSaplingGenerator());
         orangeAutumnSapling = orangeAutumnPlant.sapling;
         pottedOrangeAutumnSapling = orangeAutumnPlant.potted;
 
-        ORANGE_AUTUMN_TREE = register("orange_autumn_tree", new BasicTreeFeature.Builder()
-                .log(Blocks.DARK_OAK_LOG.getDefaultState())
-                .leaves(orangeAutumnLeaves.getDefaultState())
+        ORANGE_AUTUMN_TREE = registerConfigured("orange_autumn_tree", BASIC_TREE.configure(new BasicTreeConfig.Builder()
+                .trunk(BlockStateProvider.of(Blocks.DARK_OAK_LOG.getDefaultState()))
+                .foliage(BlockStateProvider.of(orangeAutumnLeaves.getDefaultState()))
                 .minHeight(5)
                 .maxHeight(8)
-                .create());
-        BIG_ORANGE_AUTUMN_TREE = register("big_orange_autumn_tree", new BigTreeFeature.Builder()
-                .log(Blocks.DARK_OAK_LOG.getDefaultState())
-                .leaves(orangeAutumnLeaves.getDefaultState())
-                .create());
+                .build()));
+
+        BIG_ORANGE_AUTUMN_TREE = registerConfigured("big_orange_autumn_tree", BIG_TREE.configure(new BigTreeConfig.Builder()
+                .trunk(BlockStateProvider.of(Blocks.DARK_OAK_LOG.getDefaultState()))
+                .foliage(BlockStateProvider.of(orangeAutumnLeaves.getDefaultState()))
+                .build()));
 
         // maple
         final String maple = "maple";
-        MMOLeavesBlock mapleLeaves = registerLeaves(maple, MaterialColor.RED);
+        MMOLeavesBlock mapleLeaves = registerLeaves(maple, MapColor.RED);
 
         final RegisteredSapling maplePlant = registerSapling(maple, new MapleSaplingGenerator());
         mapleSapling = maplePlant.sapling;
         pottedMapleSapling = maplePlant.potted;
 
-        MAPLE_TREE = register("maple_tree", new BasicTreeFeature.Builder()
-                .leaves(mapleLeaves.getDefaultState())
+        MAPLE_TREE = registerConfigured("maple_tree", BASIC_TREE.configure(new BasicTreeConfig.Builder()
+                .foliage(BlockStateProvider.of(mapleLeaves.getDefaultState()))
                 .minHeight(5)
                 .maxHeight(10)
-                .create());
+                .build()));
 
-        BIG_MAPLE_TREE = register("big_maple_tree", new BigTreeFeature.Builder()
-                .leaves(mapleLeaves.getDefaultState())
-                .create());
+        BIG_MAPLE_TREE = registerConfigured("big_maple_tree", BIG_TREE.configure(new BigTreeConfig.Builder()
+                .foliage(BlockStateProvider.of(mapleLeaves.getDefaultState()))
+                .build()));
     }
 
-    private static Feature<TreeFeatureConfig> register(String name, Feature<TreeFeatureConfig> feature) {
+    private TaigaTreeConfig.Builder createFirBuilder() {
+        return new TaigaTreeConfig.Builder()
+                .trunk(BlockStateProvider.of(fir.log.getDefaultState()))
+                .foliage(BlockStateProvider.of(fir.leaves.getDefaultState()));
+    }
+
+    private static <C extends FeatureConfig> Feature<C> register(String name, Feature<C> feature) {
         return Registry.register(Registry.FEATURE, identifier(name), feature);
     }
 
-    private static WoodGroupHolder registerWoodGroup(String name, MaterialColor woodTopColor, MaterialColor woodSideColor, @Nullable SaplingGenerator saplingGenerator, boolean registerLeaves) {
+    private static <C extends FeatureConfig> ConfiguredFeature<C, ?> registerConfigured(String name, ConfiguredFeature<C, ?> feature) {
+        return Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, identifier(name), feature);
+    }
+
+    private static WoodGroupHolder registerWoodGroup(String name, MapColor woodTopColor, MapColor woodSideColor, @Nullable SaplingGenerator saplingGenerator, boolean registerLeaves) {
         MMOLeavesBlock leaves = null;
         if (registerLeaves) leaves = registerLeaves(name, Material.LEAVES.getColor());
 
@@ -350,7 +367,7 @@ public class AdditionalWoodModule implements IModule {
     }
 
     @Nonnull
-    private static MMOLeavesBlock registerLeaves(String name, MaterialColor color) {
+    private static MMOLeavesBlock registerLeaves(String name, MapColor color) {
         MMOLeavesBlock leaves;
         leaves = new MMOLeavesBlock(AbstractBlock.Settings.of(Material.LEAVES, color)
                 .strength(0.2F)
@@ -361,22 +378,14 @@ public class AdditionalWoodModule implements IModule {
         return leaves;
     }
 
-    private static MMOPillarBlock createLogBlock(MaterialColor topMaterialColor, MaterialColor sideMaterialColor) {
+    private static MMOPillarBlock createLogBlock(MapColor topMaterialColor, MapColor sideMaterialColor) {
         return new MMOPillarBlock(AbstractBlock.Settings.of(Material.WOOD,
                         (blockState) -> blockState.get(PillarBlock.AXIS) == Direction.Axis.Y ? topMaterialColor : sideMaterialColor)
                 .strength(2.0F)
                 .sounds(BlockSoundGroup.WOOD));
     }
 
-    public static class RegisteredSapling {
-        public final MSaplingBlock sapling;
-        public final FlowerPotBlock potted;
-
-        public RegisteredSapling(MSaplingBlock sapling, FlowerPotBlock potted) {
-            this.sapling = sapling;
-            this.potted = potted;
-        }
-    }
+    public record RegisteredSapling(MSaplingBlock sapling, FlowerPotBlock potted) {}
 
     public static class WoodGroupHolder {
         public final MMOSaplingBlock sapling;

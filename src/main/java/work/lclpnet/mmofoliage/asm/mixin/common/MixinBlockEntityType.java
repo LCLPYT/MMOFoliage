@@ -18,7 +18,7 @@ public class MixinBlockEntityType<T extends BlockEntity> {
             method = "build",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/block/entity/BlockEntityType;<init>(Ljava/util/function/Supplier;Ljava/util/Set;Lcom/mojang/datafixers/types/Type;)V"
+                    target = "Lnet/minecraft/block/entity/BlockEntityType;<init>(Lnet/minecraft/block/entity/BlockEntityType$BlockEntityFactory;Ljava/util/Set;Lcom/mojang/datafixers/types/Type;)V"
             ),
             index = 1
     )

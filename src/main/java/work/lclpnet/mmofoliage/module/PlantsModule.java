@@ -2,8 +2,8 @@ package work.lclpnet.mmofoliage.module;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.FlowerPotBlock;
+import net.minecraft.block.MapColor;
 import net.minecraft.block.Material;
-import net.minecraft.block.MaterialColor;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
@@ -53,20 +53,20 @@ public class PlantsModule implements IModule {
         new MMOBlockRegistrar(willowVine = new MMOVineBlock())
                 .register(identifier("willow_vine"), ITEM_GROUP);
 
-        new MMOBlockRegistrar(barley = new MTallPlantBlock(getPlantSettings(Material.PLANT, MaterialColor.YELLOW_TERRACOTTA)))
+        new MMOBlockRegistrar(barley = new MTallPlantBlock(getPlantSettings(Material.PLANT, MapColor.TERRACOTTA_YELLOW)))
                 .register(identifier("barley"), ITEM_GROUP);
 
-        new MMOBlockRegistrar(cattail = new MTallWatersidePlantBlock(getPlantSettings(Material.PLANT, MaterialColor.DIRT)))
+        new MMOBlockRegistrar(cattail = new MTallWatersidePlantBlock(getPlantSettings(Material.PLANT, MapColor.DIRT_BROWN)))
                 .register(identifier("cattail"), ITEM_GROUP);
 
-        new MMOBlockRegistrar(reed = new MTallWaterPlantBlock(getPlantSettings(Material.UNDERWATER_PLANT, MaterialColor.DIRT)))
+        new MMOBlockRegistrar(reed = new MTallWaterPlantBlock(getPlantSettings(Material.UNDERWATER_PLANT, MapColor.DIRT_BROWN)))
                 .register(identifier("reed"), ITEM_GROUP);
 
         new MMOBlockRegistrar(deadBranch = new DeadBranchBlock())
                 .register(identifier("dead_branch"), ITEM_GROUP);
 
         final String glowshroom = "glowshroom";
-        new MMOBlockRegistrar(PlantsModule.glowshroom = new MMushroomPlantBlock(getPlantSettings(Material.PLANT, MaterialColor.DIAMOND)
+        new MMOBlockRegistrar(PlantsModule.glowshroom = new MMushroomPlantBlock(getPlantSettings(Material.PLANT, MapColor.DIAMOND_BLUE)
                 .luminance(blockState -> 6)))
                 .register(identifier(glowshroom), ITEM_GROUP);
 
@@ -75,7 +75,7 @@ public class PlantsModule implements IModule {
         HUGE_GLOWSHROOM = register("huge_glowshroom", new HugeGlowshroomFeature(DefaultFeatureConfig.CODEC));
 
         final String toadstool = "toadstool";
-        new MMOBlockRegistrar(PlantsModule.toadstool = new MMushroomPlantBlock(getPlantSettings(Material.PLANT, MaterialColor.DIAMOND)))
+        new MMOBlockRegistrar(PlantsModule.toadstool = new MMushroomPlantBlock(getPlantSettings(Material.PLANT, MapColor.DIAMOND_BLUE)))
                 .register(identifier(toadstool), ITEM_GROUP);
 
         pottedToadstool = MMOPottedPlantUtil.addPottedPlant(PlantsModule.toadstool, toadstool, MMOFoliage::identifier);
@@ -91,7 +91,7 @@ public class PlantsModule implements IModule {
         return getPlantSettings(Material.REPLACEABLE_PLANT, Material.REPLACEABLE_PLANT.getColor());
     }
 
-    protected AbstractBlock.Settings getPlantSettings(Material material, MaterialColor color) {
+    protected AbstractBlock.Settings getPlantSettings(Material material, MapColor color) {
         return AbstractBlock.Settings.of(material, color)
                 .noCollision()
                 .breakInstantly()

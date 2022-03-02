@@ -3,7 +3,7 @@ package work.lclpnet.mmofoliage.entity;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 
 import javax.annotation.Nullable;
@@ -35,7 +35,7 @@ public class MBoatType {
         return Objects.hash(identifier);
     }
 
-    public void toTag(CompoundTag tag) {
+    public void toTag(NbtCompound tag) {
         tag.putString("MBoatType", this.identifier.toString());
     }
 
@@ -53,7 +53,7 @@ public class MBoatType {
     }
 
     @Nullable
-    public static MBoatType fromTag(CompoundTag tag) {
+    public static MBoatType fromTag(NbtCompound tag) {
         if (!tag.contains("MBoatType")) return null;
 
         Identifier id = new Identifier(tag.getString("MBoatType"));

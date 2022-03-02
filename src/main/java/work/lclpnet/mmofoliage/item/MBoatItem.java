@@ -53,13 +53,13 @@ public class MBoatItem extends BoatItem {
             if (hitResult.getType() == HitResult.Type.BLOCK) {
                 MBoatEntity boatEntity = new MBoatEntity(world, hitResult.getPos().x, hitResult.getPos().y, hitResult.getPos().z);
                 boatEntity.setMBoatType(type);
-                boatEntity.yaw = user.yaw;
+                boatEntity.setYaw(user.getYaw());
                 if (!world.isSpaceEmpty(boatEntity, boatEntity.getBoundingBox().expand(-0.1D))) {
                     return TypedActionResult.fail(itemStack);
                 } else {
                     if (!world.isClient) {
                         world.spawnEntity(boatEntity);
-                        if (!user.abilities.creativeMode) {
+                        if (!user.getAbilities().creativeMode) {
                             itemStack.decrement(1);
                         }
                     }

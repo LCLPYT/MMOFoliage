@@ -1,7 +1,6 @@
 package work.lclpnet.mmofoliage.worldgen.sapling;
 
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.TreeFeatureConfig;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import work.lclpnet.mmofoliage.module.AdditionalWoodModule;
 
 import java.util.Random;
@@ -9,12 +8,12 @@ import java.util.Random;
 public class FirSaplingGenerator extends AbstractBigTreeSaplingGenerator {
 
     @Override
-    protected Feature<? extends TreeFeatureConfig> getFeature(Random random) {
+    protected ConfiguredFeature<?, ?> getFeature(Random random) {
         return AdditionalWoodModule.FIR_TREE;
     }
 
     @Override
-    protected Feature<? extends TreeFeatureConfig> getBigFeature(Random random) {
+    protected ConfiguredFeature<?, ?> getBigFeature(Random random) {
         return AdditionalWoodModule.FIR_TREE_LARGE;
     }
 }

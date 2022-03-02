@@ -17,7 +17,8 @@ import java.util.Random;
 public class MMushroomPlantBlock extends MushroomPlantBlock implements IMMOBlock {
 
     public MMushroomPlantBlock(Settings settings) {
-        super(settings);
+        // supplier is only a fallback in this case
+        super(settings, () -> PlantsModule.HUGE_GLOWSHROOM.configure(FeatureConfig.DEFAULT));
     }
 
     @Override

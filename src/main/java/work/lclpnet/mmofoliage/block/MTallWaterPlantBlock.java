@@ -46,7 +46,7 @@ public class MTallWaterPlantBlock extends MTallPlantBlock implements Waterloggab
     @Override
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos, BlockPos posFrom) {
         if (state.get(WATERLOGGED))
-            world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+            world.createAndScheduleBlockTick(pos, this, Fluids.WATER.getTickRate(world));
 
         return super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
     }
@@ -66,16 +66,6 @@ public class MTallWaterPlantBlock extends MTallPlantBlock implements Waterloggab
                 return this.isExposed(world, pos) && blockstate.getBlock() == this && blockstate.get(HALF) == DoubleBlockHalf.LOWER && (Boolean)blockstate.get(WATERLOGGED);
             }
         }
-    }
-
-    @Override
-    public void placeAt(WorldAccess world, BlockPos pos, int flags) {
-        boolean water = world.getFluidState(pos).getFluid() == Fluids.WATER;
-        world.setBlockState(pos, this.getDefaultState().with(HALF, DoubleBlockHalf.LOWER).with(WATERLOGGED, water), flags);
-
-        final BlockPos up = pos.up();
-        water = world.getFluidState(up).getFluid() == Fluids.WATER;
-        world.setBlockState(up, this.getDefaultState().with(HALF, DoubleBlockHalf.UPPER).with(WATERLOGGED, water), flags);
     }
 
     @Override

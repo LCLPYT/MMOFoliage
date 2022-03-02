@@ -32,7 +32,7 @@ public class DeadBranchBlock extends MMOBlock {
     ));
 
     public DeadBranchBlock() {
-        super(Settings.of(Material.WOOD, MaterialColor.GRAY)
+        super(Settings.of(Material.WOOD, MapColor.GRAY)
                 .noCollision()
                 .breakInstantly()
                 .sounds(BlockSoundGroup.WOOD));
