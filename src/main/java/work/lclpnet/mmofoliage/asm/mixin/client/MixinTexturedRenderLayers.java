@@ -18,11 +18,11 @@ public class MixinTexturedRenderLayers {
     @Shadow @Final public static Identifier SIGNS_ATLAS_TEXTURE;
 
     @Inject(
-            method = "getSignTextureId",
+            method = "createSignTextureId",
             at = @At("HEAD"),
             cancellable = true
     )
-    private static void getCustomSignTextureId(SignType type, CallbackInfoReturnable<SpriteIdentifier> cir) {
+    private static void createCustomSignTextureId(SignType type, CallbackInfoReturnable<SpriteIdentifier> cir) {
         if (type instanceof MSignType) {
             String namespace = ((MSignType) type).getId().getNamespace();
             Identifier texture = new Identifier(namespace, String.format("entity/signs/%s", type.getName()));

@@ -7,6 +7,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 
 import javax.annotation.Nullable;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -50,6 +51,10 @@ public class MBoatType {
     @Nullable
     public static MBoatType get(Identifier identifier) {
         return types.get(identifier);
+    }
+
+    public static Collection<MBoatType> getBoatTypes() {
+        return types.values();
     }
 
     @Nullable
