@@ -1,11 +1,7 @@
 package work.lclpnet.mmofoliage.module;
 
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.block.*;
 import net.minecraft.block.sapling.SaplingGenerator;
-import net.minecraft.entity.EntityDimensions;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.SignItem;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.SignType;
@@ -17,21 +13,16 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.FeatureConfig;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
+import work.lclpnet.mmocontent.block.MMOAdditionalSigns;
 import work.lclpnet.mmocontent.block.MMOBlockRegistrar;
 import work.lclpnet.mmocontent.block.MMOPottedPlantUtil;
-import work.lclpnet.mmocontent.block.ext.MMOBlock;
-import work.lclpnet.mmocontent.block.ext.MMOLeavesBlock;
-import work.lclpnet.mmocontent.block.ext.MMOPillarBlock;
-import work.lclpnet.mmocontent.block.ext.MMOSaplingBlock;
+import work.lclpnet.mmocontent.block.ext.*;
+import work.lclpnet.mmocontent.entity.MMOBoatEntity;
+import work.lclpnet.mmocontent.entity.MMOBoatType;
+import work.lclpnet.mmocontent.item.MMOBoatItem;
 import work.lclpnet.mmocontent.item.MMOItemRegistrar;
 import work.lclpnet.mmofoliage.MMOFoliage;
-import work.lclpnet.mmofoliage.block.MAdditionalSigns;
 import work.lclpnet.mmofoliage.block.MSaplingBlock;
-import work.lclpnet.mmofoliage.block.MSignBlock;
-import work.lclpnet.mmofoliage.block.MWallSignBlock;
-import work.lclpnet.mmofoliage.entity.MBoatEntity;
-import work.lclpnet.mmofoliage.entity.MBoatType;
-import work.lclpnet.mmofoliage.item.MBoatItem;
 import work.lclpnet.mmofoliage.worldgen.config.*;
 import work.lclpnet.mmofoliage.worldgen.feature.*;
 import work.lclpnet.mmofoliage.worldgen.sapling.*;
@@ -45,8 +36,6 @@ import static work.lclpnet.mmofoliage.MMOFoliage.ITEM_GROUP;
 import static work.lclpnet.mmofoliage.MMOFoliage.identifier;
 
 public class AdditionalWoodModule implements IModule {
-
-    public static EntityType<MBoatEntity> boatEntityType;
 
     public static WoodGroupHolder fir, cherry, dead, hellbark, jacaranda, palm, willow;
     public static MSaplingBlock
@@ -93,13 +82,7 @@ public class AdditionalWoodModule implements IModule {
 
     @Override
     public void register() {
-        boatEntityType = Registry.register(Registry.ENTITY_TYPE,
-                identifier("boat"),
-                FabricEntityTypeBuilder.create(SpawnGroup.MISC, (EntityType.EntityFactory<MBoatEntity>) MBoatEntity::new)
-                        .dimensions(EntityDimensions.changing(1.375F, 0.5625F))
-                        .trackRangeChunks(10)
-                        .build()
-        );
+        MMOBoatEntity.enableMMOBoatIntegration();
 
         // base features
         BASIC_TREE = (BasicTreeFeature) register("basic_tree", new BasicTreeFeature(BasicTreeConfig.TYPE_CODEC));
@@ -319,16 +302,16 @@ public class AdditionalWoodModule implements IModule {
                 .withPressurePlate(PressurePlateBlock.ActivationRule.EVERYTHING).withButton(true)
                 .register(identifier(name), ITEM_GROUP, basePath -> basePath.concat("_planks"));
 
-        SignType signType = MAdditionalSigns.registerSignType(name);
+        SignType signType = MMOAdditionalSigns.registerSignType(name, MMOFoliage::identifier);
 
-        MSignBlock sign = new MSignBlock(AbstractBlock.Settings.of(Material.WOOD)
+        MMOSignBlock sign = new MMOSignBlock(AbstractBlock.Settings.of(Material.WOOD)
                 .noCollision()
                 .strength(1.0F)
                 .sounds(BlockSoundGroup.WOOD), signType);
         new MMOBlockRegistrar(sign)
                 .register(identifier("%s_sign", name));
 
-        MWallSignBlock wallSign = new MWallSignBlock(AbstractBlock.Settings.of(Material.WOOD)
+        MMOWallSignBlock wallSign = new MMOWallSignBlock(AbstractBlock.Settings.of(Material.WOOD)
                 .noCollision()
                 .strength(1.0F)
                 .sounds(BlockSoundGroup.WOOD)
@@ -336,14 +319,14 @@ public class AdditionalWoodModule implements IModule {
         new MMOBlockRegistrar(wallSign)
                 .register(identifier("%s_wall_sign", name));
 
-        MAdditionalSigns.registerAdditionalSign(sign, wallSign);
+        MMOAdditionalSigns.registerAdditionalSign(sign, wallSign);
 
         new MMOItemRegistrar(settings -> new SignItem(settings.maxCount(16), sign, wallSign))
                 .register(identifier("%s_sign", name), ITEM_GROUP);
 
-        MBoatType boatType = MBoatType.register(identifier(name), planks);
+        MMOBoatType boatType = MMOBoatType.register(identifier(name), planks);
 
-        final MBoatItem boatItem = (MBoatItem) new MMOItemRegistrar(settings -> new MBoatItem(boatType, settings.maxCount(1)))
+        final MMOBoatItem boatItem = (MMOBoatItem) new MMOItemRegistrar(settings -> new MMOBoatItem(boatType, settings.maxCount(1)))
                 .register(identifier("%s_boat", name), ITEM_GROUP);
 
         boatType.boatItem = boatItem;
@@ -401,12 +384,12 @@ public class AdditionalWoodModule implements IModule {
         public final TrapdoorBlock trapdoor;
         public final PressurePlateBlock pressurePlate;
         public final AbstractButtonBlock button;
-        public final MBoatType boatType;
-        public final MBoatItem boatItem;
+        public final MMOBoatType boatType;
+        public final MMOBoatItem boatItem;
 
         public WoodGroupHolder(MMOSaplingBlock sapling, FlowerPotBlock pottedSapling, MMOLeavesBlock leaves, MMOPillarBlock log, MMOPillarBlock wood,
                                MMOPillarBlock strippedLog, MMOPillarBlock strippedWood, MMOBlock planks,
-                               MMOBlockRegistrar.Result result, MBoatType boatType, MBoatItem boatItem) {
+                               MMOBlockRegistrar.Result result, MMOBoatType boatType, MMOBoatItem boatItem) {
             this.pottedSapling = pottedSapling;
             this.leaves = leaves;
             this.sapling = sapling;
@@ -415,14 +398,14 @@ public class AdditionalWoodModule implements IModule {
             this.strippedLog = strippedLog;
             this.strippedWood = strippedWood;
             this.planks = planks;
-            this.stairs = Objects.requireNonNull(result.stairs).block;
-            this.slab = Objects.requireNonNull(result.slab).block;
-            this.fence = Objects.requireNonNull(result.fence).block;
-            this.fenceGate = Objects.requireNonNull(result.fenceGate).block;
-            this.door = Objects.requireNonNull(result.door).block;
-            this.trapdoor = Objects.requireNonNull(result.trapdoor).block;
-            this.pressurePlate = Objects.requireNonNull(result.pressurePlate).block;
-            this.button = Objects.requireNonNull(result.button).block;
+            this.stairs = Objects.requireNonNull(result.stairs()).block();
+            this.slab = Objects.requireNonNull(result.slab()).block();
+            this.fence = Objects.requireNonNull(result.fence()).block();
+            this.fenceGate = Objects.requireNonNull(result.fenceGate()).block();
+            this.door = Objects.requireNonNull(result.door()).block();
+            this.trapdoor = Objects.requireNonNull(result.trapdoor()).block();
+            this.pressurePlate = Objects.requireNonNull(result.pressurePlate()).block();
+            this.button = Objects.requireNonNull(result.button()).block();
             this.boatType = boatType;
             this.boatItem = boatItem;
         }

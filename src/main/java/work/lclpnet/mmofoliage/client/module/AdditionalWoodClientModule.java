@@ -1,13 +1,7 @@
 package work.lclpnet.mmofoliage.client.module;
 
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.entity.BoatEntityRenderer;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.vehicle.BoatEntity;
-import work.lclpnet.mmocontent.client.entity.MMOClientEntities;
-import work.lclpnet.mmofoliage.entity.MBoatEntity;
-import work.lclpnet.mmofoliage.module.AdditionalWoodModule;
+import work.lclpnet.mmocontent.client.entity.MMOBoatClientUtility;
 
 import static work.lclpnet.mmocontent.client.render.block.MMORenderLayers.setBlockRenderType;
 import static work.lclpnet.mmofoliage.module.AdditionalWoodModule.*;
@@ -16,11 +10,7 @@ public class AdditionalWoodClientModule implements IClientModule {
 
     @Override
     public void register() {
-        EntityRendererRegistry.register(AdditionalWoodModule.boatEntityType, BoatEntityRenderer::new);
-
-        @SuppressWarnings("unchecked")
-        MMOClientEntities.EntityFactory<MBoatEntity> factory = (type, world) -> new MBoatEntity((EntityType<? extends BoatEntity>) type, world);
-        MMOClientEntities.registerNonLiving(AdditionalWoodModule.boatEntityType, factory);
+        MMOBoatClientUtility.enableMMOBoatClientIntegration();
 
         final RenderLayer cutout = RenderLayer.getCutout();
 
