@@ -5,9 +5,9 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.sapling.LargeTreeSaplingGenerator;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
@@ -16,19 +16,19 @@ public abstract class AbstractBigTreeSaplingGenerator extends LargeTreeSaplingGe
 
     @Nullable
     @Override
-    protected ConfiguredFeature<TreeFeatureConfig, ?> getLargeTreeFeature(Random random) {
+    protected RegistryEntry<? extends ConfiguredFeature<?, ?>> getLargeTreeFeature(Random random) {
         return null;
     }
 
     @Nullable
     @Override
-    protected ConfiguredFeature<TreeFeatureConfig, ?> getTreeFeature(Random random, boolean bl) {
+    protected RegistryEntry<? extends ConfiguredFeature<?, ?>> getTreeFeature(Random random, boolean bl) {
         return null;
     }
 
-    protected abstract ConfiguredFeature<?, ?> getFeature(Random random);
+    protected abstract RegistryEntry<? extends ConfiguredFeature<?, ?>> getFeature(Random random);
 
-    protected abstract ConfiguredFeature<?, ?> getBigFeature(Random random);
+    protected abstract RegistryEntry<? extends ConfiguredFeature<?, ?>> getBigFeature(Random random);
 
     @Override
     public boolean generate(ServerWorld serverWorld, ChunkGenerator chunkGenerator, BlockPos blockPos, BlockState blockState, Random random) {
@@ -40,7 +40,7 @@ public abstract class AbstractBigTreeSaplingGenerator extends LargeTreeSaplingGe
             }
         }
 
-        ConfiguredFeature<?, ?> feature = this.getFeature(random);
+        ConfiguredFeature<?, ?> feature = this.getFeature(random).value();
         if (feature == null) {
             return false;
         } else {
@@ -56,7 +56,7 @@ public abstract class AbstractBigTreeSaplingGenerator extends LargeTreeSaplingGe
 
     @Override
     public boolean generateLargeTree(ServerWorld serverWorld, ChunkGenerator chunkGenerator, BlockPos blockPos, BlockState blockState, Random random, int x, int z) {
-        ConfiguredFeature<?, ?> feature = this.getBigFeature(random);
+        ConfiguredFeature<?, ?> feature = this.getBigFeature(random).value();
 
         if (feature == null) {
             return false;

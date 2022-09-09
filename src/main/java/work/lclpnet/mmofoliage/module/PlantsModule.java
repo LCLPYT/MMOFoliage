@@ -6,11 +6,15 @@ import net.minecraft.block.MapColor;
 import net.minecraft.block.Material;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.FeatureConfig;
 import work.lclpnet.mmocontent.block.MMOBlockRegistrar;
 import work.lclpnet.mmocontent.block.MMOPottedPlantUtil;
 import work.lclpnet.mmocontent.block.ext.MMOVineBlock;
+import work.lclpnet.mmocontent.world.FeatureUtils;
 import work.lclpnet.mmofoliage.MMOFoliage;
 import work.lclpnet.mmofoliage.block.*;
 import work.lclpnet.mmofoliage.worldgen.feature.HugeGlowshroomFeature;
@@ -30,8 +34,8 @@ public class PlantsModule implements IModule {
     public static DeadBranchBlock deadBranch;
     public static MMushroomPlantBlock glowshroom, toadstool;
 
-    public static Feature<DefaultFeatureConfig>
-            HUGE_GLOWSHROOM,
+    public static RegistryEntry<ConfiguredFeature<?, ?>>
+            FEATURE_HUGE_GLOWSHROOM,
             HUGE_TOADSTOOL;
 
     @Override
@@ -72,7 +76,9 @@ public class PlantsModule implements IModule {
 
         pottedGlowshroom = MMOPottedPlantUtil.addPottedPlant(PlantsModule.glowshroom, glowshroom, MMOFoliage::identifier);
 
-        HUGE_GLOWSHROOM = register("huge_glowshroom", new HugeGlowshroomFeature(DefaultFeatureConfig.CODEC));
+        var featureHG = register("huge_glowshroom", new HugeGlowshroomFeature(DefaultFeatureConfig.CODEC));
+        FEATURE_HUGE_GLOWSHROOM = FeatureUtils.register(identifier("huge_glowshroom"),
+                FeatureUtils.configure(featureHG, FeatureConfig.DEFAULT));
 
         final String toadstool = "toadstool";
         new MMOBlockRegistrar(PlantsModule.toadstool = new MMushroomPlantBlock(getPlantSettings(Material.PLANT, MapColor.DIAMOND_BLUE)))
@@ -80,7 +86,9 @@ public class PlantsModule implements IModule {
 
         pottedToadstool = MMOPottedPlantUtil.addPottedPlant(PlantsModule.toadstool, toadstool, MMOFoliage::identifier);
 
-        HUGE_TOADSTOOL = register("huge_toadstool", new HugeToadstoolFeature(DefaultFeatureConfig.CODEC));
+        var featureHT = register("huge_toadstool", new HugeToadstoolFeature(DefaultFeatureConfig.CODEC));
+        FEATURE_HUGE_GLOWSHROOM = FeatureUtils.register(identifier("huge_toadstool"),
+                FeatureUtils.configure(featureHT, FeatureConfig.DEFAULT));
     }
 
     private static Feature<DefaultFeatureConfig> register(String name, Feature<DefaultFeatureConfig> feature) {

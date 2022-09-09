@@ -30,7 +30,7 @@ public class TaigaTreeConfig extends CustomTreeConfig {
         this.trunkWidth = trunkWidth;
     }
 
-    public static class Builder extends CustomTreeConfig.Builder<TaigaTreeConfig.Builder> {
+    public static class Builder extends CustomTreeConfig.Builder<Builder> {
         private int trunkWidth;
 
         public Builder() {
@@ -42,7 +42,7 @@ public class TaigaTreeConfig extends CustomTreeConfig {
             this.trunkWidth = 1;
         }
 
-        public TaigaTreeConfig.Builder trunkWidth(int a) {
+        public Builder trunkWidth(int a) {
             this.trunkWidth = a;
             return this;
         }

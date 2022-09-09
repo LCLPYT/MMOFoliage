@@ -8,7 +8,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.FeatureConfig;
 import work.lclpnet.mmocontent.block.ext.IMMOBlock;
 import work.lclpnet.mmofoliage.module.PlantsModule;
 
@@ -18,7 +17,7 @@ public class MMushroomPlantBlock extends MushroomPlantBlock implements IMMOBlock
 
     public MMushroomPlantBlock(Settings settings) {
         // supplier is only a fallback in this case
-        super(settings, () -> PlantsModule.HUGE_GLOWSHROOM.configure(FeatureConfig.DEFAULT));
+        super(settings, () -> PlantsModule.FEATURE_HUGE_GLOWSHROOM);
     }
 
     @Override
@@ -36,14 +35,14 @@ public class MMushroomPlantBlock extends MushroomPlantBlock implements IMMOBlock
         serverWorld.removeBlock(pos, false);
         ConfiguredFeature<?, ?> feature;
         if (this.equals(PlantsModule.glowshroom)) {
-            feature = PlantsModule.HUGE_GLOWSHROOM.configure(FeatureConfig.DEFAULT);
+            feature = PlantsModule.FEATURE_HUGE_GLOWSHROOM.value();
         } else {
             if (this != PlantsModule.toadstool) {
                 serverWorld.setBlockState(pos, state, 3);
                 return false;
             }
 
-            feature = PlantsModule.HUGE_TOADSTOOL.configure(FeatureConfig.DEFAULT);
+            feature = PlantsModule.HUGE_TOADSTOOL.value();
         }
 
         if (feature.generate(serverWorld, serverWorld.getChunkManager().getChunkGenerator(), random, pos)) {

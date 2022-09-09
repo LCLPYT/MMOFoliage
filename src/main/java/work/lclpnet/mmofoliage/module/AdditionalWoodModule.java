@@ -6,12 +6,11 @@ import net.minecraft.item.SignItem;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.SignType;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.FeatureConfig;
-import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import work.lclpnet.mmocontent.block.MMOAdditionalSigns;
 import work.lclpnet.mmocontent.block.MMOBlockRegistrar;
@@ -21,6 +20,7 @@ import work.lclpnet.mmocontent.entity.MMOBoatEntity;
 import work.lclpnet.mmocontent.entity.MMOBoatType;
 import work.lclpnet.mmocontent.item.MMOBoatItem;
 import work.lclpnet.mmocontent.item.MMOItemRegistrar;
+import work.lclpnet.mmocontent.world.FeatureUtils;
 import work.lclpnet.mmofoliage.MMOFoliage;
 import work.lclpnet.mmofoliage.block.MSaplingBlock;
 import work.lclpnet.mmofoliage.worldgen.config.*;
@@ -32,6 +32,7 @@ import javax.annotation.Nullable;
 import java.util.Objects;
 
 import static work.lclpnet.mmocontent.util.MMOUtil.registerStrippedBlock;
+import static work.lclpnet.mmocontent.world.FeatureUtils.configure;
 import static work.lclpnet.mmofoliage.MMOFoliage.ITEM_GROUP;
 import static work.lclpnet.mmofoliage.MMOFoliage.identifier;
 
@@ -58,7 +59,7 @@ public class AdditionalWoodModule implements IModule {
             TWIGLET_TREE,
             BASE_PALM_TREE;
 
-    public static ConfiguredFeature<TreeFeatureConfig, ?>
+    public static RegistryEntry<ConfiguredFeature<?, ?>>
             FIR_TREE_SMALL,
             FIR_TREE,
             FIR_TREE_LARGE,
@@ -94,9 +95,9 @@ public class AdditionalWoodModule implements IModule {
         // fir
         fir = registerWoodGroup("fir", MapColor.TERRACOTTA_WHITE, MapColor.TERRACOTTA_LIGHT_GRAY, new FirSaplingGenerator(), true);
 
-        FIR_TREE_SMALL = registerConfigured("fir_tree_small", TAIGA_TREE.configure(createFirBuilder().minHeight(5).maxHeight(11).build()));
-        FIR_TREE = registerConfigured("fir_tree", TAIGA_TREE.configure(createFirBuilder().minHeight(5).maxHeight(28).build()));
-        FIR_TREE_LARGE = registerConfigured("fir_tree_large", TAIGA_TREE.configure(createFirBuilder().minHeight(20).maxHeight(40).trunkWidth(2).build()));
+        FIR_TREE_SMALL = registerConfigured("fir_tree_small", configure(TAIGA_TREE, createFirBuilder().minHeight(5).maxHeight(11).build()));
+        FIR_TREE = registerConfigured("fir_tree", configure(TAIGA_TREE, createFirBuilder().minHeight(5).maxHeight(28).build()));
+        FIR_TREE_LARGE = registerConfigured("fir_tree_large", configure(TAIGA_TREE, createFirBuilder().minHeight(20).maxHeight(40).trunkWidth(2).build()));
 
         // cherry
         final String whiteCherry = "white_cherry", pinkCherry = "pink_cherry";
@@ -113,22 +114,22 @@ public class AdditionalWoodModule implements IModule {
 
         cherry = registerWoodGroup("cherry", MapColor.RED, MapColor.TERRACOTTA_RED, null, false);
 
-        WHITE_CHERRY_TREE = registerConfigured("white_cherry_tree", BASIC_TREE.configure(new BasicTreeConfig.Builder()
+        WHITE_CHERRY_TREE = registerConfigured("white_cherry_tree", configure(BASIC_TREE, new BasicTreeConfig.Builder()
                 .trunk(BlockStateProvider.of(cherry.log.getDefaultState()))
                 .foliage(BlockStateProvider.of(whiteCherryLeaves.getDefaultState()))
                 .build()));
 
-        BIG_WHITE_CHERRY_TREE = registerConfigured("big_white_cherry_tree", BIG_TREE.configure(new BigTreeConfig.Builder()
+        BIG_WHITE_CHERRY_TREE = registerConfigured("big_white_cherry_tree", configure(BIG_TREE, new BigTreeConfig.Builder()
                 .trunk(BlockStateProvider.of(cherry.log.getDefaultState()))
                 .foliage(BlockStateProvider.of(whiteCherryLeaves.getDefaultState()))
                 .build()));
 
-        PINK_CHERRY_TREE = registerConfigured("pink_cherry_tree", BASIC_TREE.configure(new BasicTreeConfig.Builder()
+        PINK_CHERRY_TREE = registerConfigured("pink_cherry_tree", configure(BASIC_TREE, new BasicTreeConfig.Builder()
                 .trunk(BlockStateProvider.of(cherry.log.getDefaultState()))
                 .foliage(BlockStateProvider.of(pinkCherryLeaves.getDefaultState()))
                 .build()));
 
-        BIG_PINK_CHERRY_TREE = registerConfigured("big_pink_cherry_tree", BIG_TREE.configure(new BigTreeConfig.Builder()
+        BIG_PINK_CHERRY_TREE = registerConfigured("big_pink_cherry_tree", configure(BIG_TREE, new BigTreeConfig.Builder()
                 .trunk(BlockStateProvider.of(cherry.log.getDefaultState()))
                 .foliage(BlockStateProvider.of(pinkCherryLeaves.getDefaultState()))
                 .build()));
@@ -136,12 +137,12 @@ public class AdditionalWoodModule implements IModule {
         // dead
         dead = registerWoodGroup("dead", MapColor.STONE_GRAY, MapColor.STONE_GRAY, new DeadSaplingGenerator(), true);
 
-        SMALL_DEAD_TREE = registerConfigured("small_dead_tree", BASIC_TREE.configure(new BasicTreeConfig.Builder()
+        SMALL_DEAD_TREE = registerConfigured("small_dead_tree", configure(BASIC_TREE, new BasicTreeConfig.Builder()
                 .trunk(BlockStateProvider.of(dead.log.getDefaultState()))
                 .foliage(BlockStateProvider.of(dead.leaves.getDefaultState()))
                 .build()));
 
-        DYING_TREE = registerConfigured("dying_tree", BIG_TREE.configure(new BigTreeConfig.Builder()
+        DYING_TREE = registerConfigured("dying_tree", configure(BIG_TREE, new BigTreeConfig.Builder()
                 .trunk(BlockStateProvider.of(dead.log.getDefaultState()))
                 .foliage(BlockStateProvider.of(dead.leaves.getDefaultState()))
                 .maxHeight(10)
@@ -151,7 +152,7 @@ public class AdditionalWoodModule implements IModule {
         // hellbark
         hellbark = registerWoodGroup("hellbark", MapColor.TERRACOTTA_GRAY, MapColor.LIGHT_GRAY, new HellbarkSaplingGenerator(), true);
 
-        HELLBARK_TREE = registerConfigured("hellbark_tree", TWIGLET_TREE.configure(new TwigletTreeConfig.Builder()
+        HELLBARK_TREE = registerConfigured("hellbark_tree", configure(TWIGLET_TREE, new TwigletTreeConfig.Builder()
                 .trunk(BlockStateProvider.of(hellbark.log.getDefaultState()))
                 .foliage(BlockStateProvider.of(hellbark.leaves.getDefaultState()))
                 .build()));
@@ -159,12 +160,12 @@ public class AdditionalWoodModule implements IModule {
         // jacaranda
         jacaranda = registerWoodGroup("jacaranda", MapColor.TERRACOTTA_WHITE, MapColor.TERRACOTTA_LIGHT_GRAY, new JacarandaSaplingGenerator(), true);
 
-        JACARANDA_TREE = registerConfigured("jacaranda_tree", BASIC_TREE.configure(new BasicTreeConfig.Builder()
+        JACARANDA_TREE = registerConfigured("jacaranda_tree", configure(BASIC_TREE, new BasicTreeConfig.Builder()
                 .trunk(BlockStateProvider.of(jacaranda.log.getDefaultState()))
                 .foliage(BlockStateProvider.of(jacaranda.leaves.getDefaultState()))
                 .build()));
 
-        BIG_JACARANDA_TREE = registerConfigured("big_jacaranda_tree", BIG_TREE.configure(new BigTreeConfig.Builder()
+        BIG_JACARANDA_TREE = registerConfigured("big_jacaranda_tree", configure(BIG_TREE, new BigTreeConfig.Builder()
                 .trunk(BlockStateProvider.of(jacaranda.log.getDefaultState()))
                 .foliage(BlockStateProvider.of(jacaranda.leaves.getDefaultState()))
                 .build()));
@@ -172,7 +173,7 @@ public class AdditionalWoodModule implements IModule {
         // palm
         palm = registerWoodGroup("palm", MapColor.TERRACOTTA_YELLOW, MapColor.TERRACOTTA_BROWN, new PalmSaplingGenerator(), true);
 
-        PALM_TREE = registerConfigured("palm_tree", BASE_PALM_TREE.configure(new PalmTreeConfig.Builder()
+        PALM_TREE = registerConfigured("palm_tree", configure(BASE_PALM_TREE, new PalmTreeConfig.Builder()
                 .trunk(BlockStateProvider.of(palm.log.getDefaultState()))
                 .foliage(BlockStateProvider.of(palm.leaves.getDefaultState().with(LeavesBlock.PERSISTENT, true)))
                 .build()));
@@ -180,7 +181,7 @@ public class AdditionalWoodModule implements IModule {
         // willow
         willow = registerWoodGroup("willow", MapColor.TERRACOTTA_LIME, MapColor.TERRACOTTA_LIME, new WillowSaplingGenerator(), true);
 
-        WILLOW_TREE = registerConfigured("willow_tree", BASIC_TREE.configure(new BasicTreeConfig.Builder()
+        WILLOW_TREE = registerConfigured("willow_tree", configure(BASIC_TREE, new BasicTreeConfig.Builder()
                 .trunk(BlockStateProvider.of(willow.log.getDefaultState()))
                 .foliage(BlockStateProvider.of(willow.leaves.getDefaultState()))
                 .vine(BlockStateProvider.of(PlantsModule.willowVine))
@@ -198,14 +199,14 @@ public class AdditionalWoodModule implements IModule {
         yellowAutumnSapling = yellowAutumnPlant.sapling;
         pottedYellowAutumnSapling = yellowAutumnPlant.potted;
 
-        YELLOW_AUTUMN_TREE = registerConfigured("yellow_autumn_tree", BASIC_TREE.configure(new BasicTreeConfig.Builder()
+        YELLOW_AUTUMN_TREE = registerConfigured("yellow_autumn_tree", configure(BASIC_TREE, new BasicTreeConfig.Builder()
                 .trunk(BlockStateProvider.of(Blocks.BIRCH_LOG.getDefaultState()))
                 .foliage(BlockStateProvider.of(yellowAutumnLeaves.getDefaultState()))
                 .minHeight(5)
                 .maxHeight(8)
                 .build()));
 
-        BIG_YELLOW_AUTUMN_TREE = registerConfigured("big_yellow_autumn_tree", BIG_TREE.configure(new BigTreeConfig.Builder()
+        BIG_YELLOW_AUTUMN_TREE = registerConfigured("big_yellow_autumn_tree", configure(BIG_TREE, new BigTreeConfig.Builder()
                 .trunk(BlockStateProvider.of(Blocks.BIRCH_LOG.getDefaultState()))
                 .foliage(BlockStateProvider.of(yellowAutumnLeaves.getDefaultState()))
                 .build()));
@@ -218,14 +219,14 @@ public class AdditionalWoodModule implements IModule {
         orangeAutumnSapling = orangeAutumnPlant.sapling;
         pottedOrangeAutumnSapling = orangeAutumnPlant.potted;
 
-        ORANGE_AUTUMN_TREE = registerConfigured("orange_autumn_tree", BASIC_TREE.configure(new BasicTreeConfig.Builder()
+        ORANGE_AUTUMN_TREE = registerConfigured("orange_autumn_tree", configure(BASIC_TREE, new BasicTreeConfig.Builder()
                 .trunk(BlockStateProvider.of(Blocks.DARK_OAK_LOG.getDefaultState()))
                 .foliage(BlockStateProvider.of(orangeAutumnLeaves.getDefaultState()))
                 .minHeight(5)
                 .maxHeight(8)
                 .build()));
 
-        BIG_ORANGE_AUTUMN_TREE = registerConfigured("big_orange_autumn_tree", BIG_TREE.configure(new BigTreeConfig.Builder()
+        BIG_ORANGE_AUTUMN_TREE = registerConfigured("big_orange_autumn_tree", configure(BIG_TREE, new BigTreeConfig.Builder()
                 .trunk(BlockStateProvider.of(Blocks.DARK_OAK_LOG.getDefaultState()))
                 .foliage(BlockStateProvider.of(orangeAutumnLeaves.getDefaultState()))
                 .build()));
@@ -238,13 +239,13 @@ public class AdditionalWoodModule implements IModule {
         mapleSapling = maplePlant.sapling;
         pottedMapleSapling = maplePlant.potted;
 
-        MAPLE_TREE = registerConfigured("maple_tree", BASIC_TREE.configure(new BasicTreeConfig.Builder()
+        MAPLE_TREE = registerConfigured("maple_tree", configure(BASIC_TREE, new BasicTreeConfig.Builder()
                 .foliage(BlockStateProvider.of(mapleLeaves.getDefaultState()))
                 .minHeight(5)
                 .maxHeight(10)
                 .build()));
 
-        BIG_MAPLE_TREE = registerConfigured("big_maple_tree", BIG_TREE.configure(new BigTreeConfig.Builder()
+        BIG_MAPLE_TREE = registerConfigured("big_maple_tree", configure(BIG_TREE, new BigTreeConfig.Builder()
                 .foliage(BlockStateProvider.of(mapleLeaves.getDefaultState()))
                 .build()));
     }
@@ -259,8 +260,8 @@ public class AdditionalWoodModule implements IModule {
         return Registry.register(Registry.FEATURE, identifier(name), feature);
     }
 
-    private static <C extends FeatureConfig> ConfiguredFeature<C, ?> registerConfigured(String name, ConfiguredFeature<C, ?> feature) {
-        return Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, identifier(name), feature);
+    private static <C extends FeatureConfig> RegistryEntry<ConfiguredFeature<?, ?>> registerConfigured(String name, ConfiguredFeature<C, ?> feature) {
+        return FeatureUtils.register(identifier(name), feature);
     }
 
     private static WoodGroupHolder registerWoodGroup(String name, MapColor woodTopColor, MapColor woodSideColor, @Nullable SaplingGenerator saplingGenerator, boolean registerLeaves) {

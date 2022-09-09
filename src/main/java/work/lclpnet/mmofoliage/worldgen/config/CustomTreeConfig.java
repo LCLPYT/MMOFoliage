@@ -42,7 +42,7 @@ public class CustomTreeConfig extends TreeFeatureConfig {
     }
 
     @SuppressWarnings("unchecked")
-    public static class Builder<T extends CustomTreeConfig.Builder<T>> {
+    public static class Builder<T extends Builder<T>> {
         protected BlockStateProvider trunkProvider;
         protected BlockStateProvider foliageProvider;
         protected BlockStateProvider vineProvider;
